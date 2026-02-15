@@ -8,6 +8,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!-- New entries go here -->
 
+## [3.27.2] - 2026-02-15
+
+### Added
+
+- **YAML frontmatter on 90 markdown files** across `guide/` and `examples/`
+  - Schema A (title, description, tags): 24 guide top-level + 15 workflow files
+  - Schema B (name, description): 20 command templates (matches existing convention)
+  - Schema C (title, description, tags with claude-md): 5 claude-md templates
+  - Schema D (title, description, tags): 7 READMEs + 19 miscellaneous example files
+  - Controlled tag vocabulary: 15 domains, 11 content types, 9 features
+  - 18 files with existing frontmatter correctly skipped
+  - Enables machine-readable metadata for navigation, SSG, SEO, and LLM consumption
+
 ## [3.27.1] - 2026-02-15
 
 ### Added
