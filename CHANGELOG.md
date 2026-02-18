@@ -7,7 +7,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [3.27.6] - 2026-02-18
 
 ### Added
-- New subsection "200K vs 1M Context: Performance, Cost & Use Cases" in pricing section (MRCR benchmark table, cost-per-session table, decision guide, key facts)
+- New subsection "200K vs 1M Context: Performance, Cost & Use Cases" with MRCR benchmark table, cost-per-session table, decision guide, and key facts
+- Community findings from Reddit/HN/blogs: Gemini comparison, "70% context → new session" workaround, real-world use case limits
+- HN community validation reference: Opus 4.6 retrieves 49/50 spells across ~733K tokens (Harry Potter test)
 - `machine-readable/reference.yaml`: 5 new entries for Sonnet 4.6 + context window comparison
 
 ### Changed
@@ -15,6 +17,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Context Management section: updated to mention 1M beta with link to comparison subsection
 - `threat-db.yaml` v2.1.0: added CVE-2026-23744 (MCPJam RCE), hightower6eu publisher (314+ malicious skills), Slopsquatting technique T009, Mcpwn scanner, OWASP Agentic AI Top 10 2026, new sources (VirusTotal, SentinelOne, Immersive Labs, arXiv)
 - `cheatsheet.pdf`: updated binary
+
+### Fixed
+- Beta header corrected: `interleaved-thinking-2025-05-14` → `context-1m-2025-08-07` (different feature, deprecated on Opus 4.6)
+- Sonnet 4.6 long-context pricing: added premium tier ($3→$6 / $15→$22.50 above 200K — applies to all models)
+- Cost estimates recalculated: Sonnet 4.6 @ 1M ~$4.13 (was $2.25), Opus 4.6 @ 1M ~$6.88 (was $8.75)
+- Restored Opus 4.6 MRCR 93% @ 256K with confirmed source (independent analysis of Anthropic data)
+- Added usage tier 4 requirement (1M context not available on tiers 1–3)
+- Clarified premium pricing applies to all tokens in request once input exceeds 200K (not just excess)
 
 ## [3.27.5] - 2026-02-17
 
