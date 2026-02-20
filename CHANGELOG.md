@@ -8,6 +8,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Talk Preparation Pipeline** — 6-stage skill pipeline: raw material → conference talk → Kimi slides
+  - New workflow guide: `guide/workflows/talk-pipeline.md` (REX vs Concept modes, stage-by-stage guide, design patterns, real-world example)
+  - New skill templates: `examples/skills/talk-pipeline/` (7 SKILL.md files + 2 templates)
+    - Stage 1: Extract (source → structured summary, type auto-detection)
+    - Stage 2: Research (REX only — git archaeology, changelog analysis, verified timeline)
+    - Stage 3: Concepts (numbered, scored catalogue — HIGH/MEDIUM/LOW)
+    - Stage 4: Position (angles, titles, descriptions, peer feedback draft + mandatory CHECKPOINT)
+    - Stage 5: Script (5-act pitch, slide spec, Kimi prompt for AI slide generation)
+    - Stage 6: Revision (master concept table, Q&A cheat-sheet, glossary)
+    - Orchestrator (runs full pipeline from one invocation, routes by mode)
+  - Generic Kimi template: `stage-5-script/templates/kimi-prompt-template.md` (dark theme, orange accent, WCAG AA)
+  - Peer feedback template: `stage-4-position/templates/feedback-draft.md` (3 formats: Slack, email, LinkedIn)
+  - Design patterns documented: skill chaining + file-based state, tool permission scoping, human-in-the-loop gate, AI-to-AI handoff (Claude → Kimi), dual execution modes
+  - `reference.yaml`: 16 entries for talk pipeline components
+  - `guide/workflows/README.md`: Talk Pipeline entry under Design & Content + Quick Selection Table
+
+- **Resource evaluation**: Mergify "Cross-System Support Investigator" (score 4/5)
+  - Production case study: Claude Code + 5 MCP servers (Datadog, Sentry, PostgreSQL, Linear, GitHub) for support ticket triage
+  - Architecture pattern: Claude Code as operational orchestrator with parallel fan-out across MCP adapters
+  - Results (self-reported): triage 15 min → <5 min; 75% first-pass accuracy
+  - Integrated in `guide/ultimate-guide.md` §8.4 → new "Production Case Study" subsection with architecture diagram
+  - Evaluation archived: `docs/resource-evaluations/2026-02-20-mergify-cross-system-support-investigator.md`
+
 /- **Resource evaluation**: "Evaluating AGENTS.md" — ETH Zürich arXiv 2602.11988 (score 4/5)
   - First empirical study on repository-level context files (AGENTS.md/CLAUDE.md) effectiveness
   - Developer-written context files: **+4% agent success rate**; LLM-generated: **-3%** vs no context file

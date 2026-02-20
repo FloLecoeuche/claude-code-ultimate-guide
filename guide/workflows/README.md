@@ -87,6 +87,12 @@ Generate professional PDFs using Quarto/Typst with Claude Code.
 
 **When to use**: Reports, documentation, whitepapers, technical documents
 
+### [Talk Preparation Pipeline](./talk-pipeline.md) ⭐ NEW
+
+6-stage skill pipeline: raw material → structured talk → AI-generated slides via Kimi.
+
+**When to use**: Conference talks, meetup presentations, internal tech talks — from article, transcript, or notes
+
 ### [TTS Setup](./tts-setup.md)
 
 Configure Text-to-Speech for Claude Code responses (Agent Vibes integration).
@@ -120,6 +126,7 @@ Systematically explore and understand unfamiliar codebases.
 | **New project from template** | [Skeleton Projects](./skeleton-projects.md) |
 | **Team AI instructions** | [Team AI Instructions](./team-ai-instructions.md) |
 | **Documentation** | [PDF Generation](./pdf-generation.md) |
+| **Conference talk from raw material** | [Talk Preparation Pipeline](./talk-pipeline.md) |
 | **Audio feedback** | [TTS Setup](./tts-setup.md) |
 
 ---

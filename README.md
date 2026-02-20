@@ -6,9 +6,9 @@
 
 <p align="center">
   <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers"><img src="https://img.shields.io/github/stars/FlorianBruniaux/claude-code-ultimate-guide?style=for-the-badge" alt="Stars"/></a>
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Feb_19,_2026_·_v3.27.8-brightgreen?style=for-the-badge" alt="Last Update"/></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Feb_20,_2026_·_v3.27.8-brightgreen?style=for-the-badge" alt="Last Update"/></a>
   <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-274_questions-orange?style=for-the-badge" alt="Quiz"/></a>
-  <a href="./examples/"><img src="https://img.shields.io/badge/Templates-164-green?style=for-the-badge" alt="Templates"/></a>
+  <a href="./examples/"><img src="https://img.shields.io/badge/Templates-172-green?style=for-the-badge" alt="Templates"/></a>
   <a href="./guide/security-hardening.md"><img src="https://img.shields.io/badge/🛡️_Threat_DB-19_CVEs_·_655_malicious_skills-red?style=for-the-badge" alt="Threat Database"/></a>
 </p>
 
@@ -50,7 +50,7 @@ Both guides serve different needs. Choose based on your priority.
 | **Security hardening** | Only threat database (18 CVEs) | Basic patterns only |
 | **Test understanding** | 274-question quiz | Not available |
 | **Methodologies** (TDD/SDD/BDD) | Full workflow guides | Not covered |
-| **Copy-paste ready** templates | 164 templates | 200+ templates |
+| **Copy-paste ready** templates | 172 templates | 200+ templates |
 
 ### Ecosystem Positioning
 
@@ -136,11 +136,11 @@ graph LR
     root[📦 Repository<br/>Root]
 
     root --> guide[📖 guide/<br/>19K lines]
-    root --> examples[📋 examples/<br/>164 templates]
+    root --> examples[📋 examples/<br/>172 templates]
     root --> quiz[🧠 quiz/<br/>274 questions]
     root --> tools[🔧 tools/<br/>utils]
     root --> machine[🤖 machine-readable/<br/>AI index]
-    root --> docs[📚 docs/<br/>78 evaluations]
+    root --> docs[📚 docs/<br/>83 evaluations]
 
     style root fill:#d35400,stroke:#e67e22,stroke-width:3px,color:#fff
     style guide fill:#2980b9,stroke:#3498db,stroke-width:2px,color:#fff
@@ -166,11 +166,11 @@ graph LR
 │  ├─ mcp-servers-ecosystem.md  Official & community MCP servers
 │  └─ workflows/          Step-by-step guides
 │
-├─ 📋 examples/           164 Production Templates
+├─ 📋 examples/           172 Production Templates
 │  ├─ agents/             6 custom AI personas
 │  ├─ commands/           26 slash commands
 │  ├─ hooks/              31 hooks (bash + PowerShell)
-│  ├─ skills/             13 skills (9 on SkillHub)
+│  ├─ skills/             14 skills (9 on SkillHub)
 │  └─ scripts/            Utility scripts (audit, search)
 │
 ├─ 🧠 quiz/               264 Questions

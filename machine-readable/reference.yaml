@@ -95,6 +95,23 @@ deep_dive:
   # PDF Generation
   pdf_generation: "guide/workflows/pdf-generation.md"
   pdf_generator_skill: "examples/skills/pdf-generator.md"
+  # Talk Preparation Pipeline (6-stage: extract → research → concepts → position → script → revision)
+  talk_pipeline_workflow: "guide/workflows/talk-pipeline.md"
+  talk_pipeline_skills: "examples/skills/talk-pipeline/"
+  talk_pipeline_orchestrator: "examples/skills/talk-pipeline/orchestrator/SKILL.md"
+  talk_pipeline_stage1: "examples/skills/talk-pipeline/stage-1-extract/SKILL.md"
+  talk_pipeline_stage2: "examples/skills/talk-pipeline/stage-2-research/SKILL.md"
+  talk_pipeline_stage3: "examples/skills/talk-pipeline/stage-3-concepts/SKILL.md"
+  talk_pipeline_stage4: "examples/skills/talk-pipeline/stage-4-position/SKILL.md"
+  talk_pipeline_stage5: "examples/skills/talk-pipeline/stage-5-script/SKILL.md"
+  talk_pipeline_stage6: "examples/skills/talk-pipeline/stage-6-revision/SKILL.md"
+  talk_pipeline_kimi_template: "examples/skills/talk-pipeline/stage-5-script/templates/kimi-prompt-template.md"
+  talk_pipeline_feedback_template: "examples/skills/talk-pipeline/stage-4-position/templates/feedback-draft.md"
+  talk_pipeline_modes: "REX (git archaeology) | Concept (skip stage 2)"
+  talk_pipeline_outputs: "13-14 files REX mode, 10 files Concept mode"
+  talk_pipeline_patterns: "skill chaining + file-based state + tool permission scoping + human-in-the-loop gate + AI-to-AI handoff (Claude → Kimi)"
+  talk_pipeline_checkpoint: "Stage 4 CHECKPOINT: user selects angle + title before script starts"
+  talk_pipeline_kimi: "kimi.com (free) — copy-paste Stage 5 prompt for AI slide generation"
   # Whitepapers (FR + EN) — 9 focused whitepapers on Claude Code
   whitepapers_url: "https://www.florian.bruniaux.com/guides"
   whitepapers_fr: "whitepapers/fr/"  # FR sources (Quarto .qmd)
@@ -470,7 +487,7 @@ deep_dive:
   gsd_note: "Overlap with existing patterns (Ralph Loop, Gas Town, BMAD)"
   # Resource Evaluations (added 2026-01-26, updated 2026-02-07)
   resource_evaluations_directory: "docs/resource-evaluations/"
-  resource_evaluations_count: 74
+  resource_evaluations_count: 83
   resource_evaluations_methodology: "docs/resource-evaluations/README.md"
   resource_evaluations_watchlist: "docs/resource-evaluations/watch-list.md"
   resource_evaluations_appendix: "guide/ultimate-guide.md:15034"
