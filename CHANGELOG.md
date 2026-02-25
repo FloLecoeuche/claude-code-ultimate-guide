@@ -6,6 +6,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **Remote Control (Mobile Access) — Section 9.22** — New section in `guide/ultimate-guide.md` documenting the Remote Control feature (Research Preview, v2.1.51+, Pro/Max only)
+  - Two activation modes: `claude remote-control` CLI subcommand and `/rc` slash command
+  - QR code + session URL connection workflow, `/mobile` command for app download
+  - Community-sourced limitations: slash commands (`/new`, `/compact`) don't work in remote UI (undocumented in official Anthropic docs)
+  - Advanced patterns: tmux multi-session workaround (bypass 1-session limit), VM/cloud persistent architecture
+  - Security considerations, alternatives comparison (happy.engineering, OpenClaw, SSH, ngrok)
+  - Section 9 Recap updated with Remote Control checklist item
+  - TOC entry added: `[9.22 Remote Control (Mobile Access)]`
+
+- **`guide/cheatsheet.md`** — Dedicated "Remote Control" section + Features Méconnues entry
+  - New section with full workflow: commands, QR/URL/app connection, limitations table, tmux pattern, auto-enable
+  - Added to Features Méconnues: v2.1.51 Remote Control
+  - CLI flags table: `remote-control` subcommand
+  - Slash commands table: `/remote-control`, `/rc`, `/mobile`
+
+- **`guide/security-hardening.md`** — Part 7: Remote Control Security
+  - Architecture diagram (outbound-only HTTPS relay model)
+  - Threat model: session URL leak, RCE surface, corporate policy, persistent exposure
+  - Community perspective (senior dev security concerns)
+  - Best practices + enterprise considerations
+  - Comparison table: Remote Control vs SSH, ngrok, VPN+SSH
+
+- **`machine-readable/reference.yaml`** — Remote Control entries
+  - Slash commands: `/remote-control`, `/rc`, `/mobile`
+  - CLI: `remote-control` subcommand
+  - Deep dive: `remote_control: 18843` line reference
+
+- **`docs/resource-evaluations/2026-02-25-claude-code-remote-control.md`** — Resource evaluation (score 4/5)
+  - Full fact-check, community feedback (FR Slack), 9 press articles found
+  - Challenge section with risk analysis
+  - Original insights: slash command limitation, tmux pattern, security concerns
+
 ### Documentation
 
 - **Claude Code Releases**: Updated tracking to v2.1.56 (v2.1.52 → v2.1.56)

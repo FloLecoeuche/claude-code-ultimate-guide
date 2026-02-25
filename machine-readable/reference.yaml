@@ -602,6 +602,7 @@ deep_dive:
   git_best_practices: 8412
   cost_optimization: 8878
   session_teleportation: 9477
+  remote_control: 18843
   multi_instance_workflows: 9583
   boris_cherny_case_study: 9617
   boris_cherny_team_patterns: 11822
@@ -958,6 +959,9 @@ commands:
   /teleport: "bring web session to local CLI"
   /tasks: "monitor background tasks"
   /remote-env: "configure cloud environment"
+  /remote-control: "start remote control session (Research Preview, Pro/Max only)"
+  /rc: "alias for /remote-control"
+  /mobile: "get Claude mobile app download links (iOS + Android)"
 
 # ════════════════════════════════════════════════════════════════
 # SHORTCUTS - see deep_dive.shortcuts_table
@@ -978,6 +982,7 @@ cli:
   "-c": "continue last session"
   "-r <id>": "resume specific session"
   "--teleport": "bring web session to local CLI"
+  "remote-control": "subcommand: start remote control session"
   "-p": "non-interactive (pipe mode)"
   "--model X": "select model"
   "--dangerously-skip-permissions": "auto-accept ALL (danger)"

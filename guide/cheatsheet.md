@@ -32,6 +32,9 @@ tags: [cheatsheet, reference]
 | `/teleport` | Teleport session from web |
 | `/tasks` | Monitor background tasks |
 | `/remote-env` | Configure cloud environment |
+| `/remote-control` | Start remote control session (Research Preview, Pro/Max) |
+| `/rc` | Alias for /remote-control |
+| `/mobile` | Get Claude mobile app download links |
 | `/fast` | Toggle fast mode (2.5x speed, 6x cost) |
 | `/debug` | Systematic troubleshooting |
 | `/exit` | Quit (or Ctrl+D) |
@@ -80,6 +83,7 @@ tags: [cheatsheet, reference]
 | **Auto-Memories** | v2.1.32 | Automatic cross-session context capture |
 | **Session Forking** | v2.1.19 | Rewind + create parallel timeline |
 | **LSP Tool** | v2.0.74 | Code intelligence (go-to-def, refs) |
+| **Remote Control** | v2.1.51 | Control local session from phone/browser (Research Preview, Pro/Max) |
 
 **Pro tip**: These aren't "secrets"—they're in the [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md). Read it!
 
@@ -381,6 +385,7 @@ VERIFY: Empty email shows error, invalid format shows error
 | `-c` / `--continue` | Continue last session |
 | `-r` / `--resume <id>` | Resume specific session |
 | `--teleport` | Teleport session from web |
+| `remote-control` | Subcommand: start remote control session |
 | `--model sonnet` | Change model |
 | `--add-dir ../lib` | Allow access outside CWD |
 | `--permission-mode plan` | Plan mode |
@@ -419,6 +424,43 @@ claude -p "lint" --model haiku
 # With auto-accept
 claude -p "fix typos" --dangerously-skip-permissions
 ```
+
+---
+
+## Remote Control — Mobile Access (v2.1.51+, Research Preview)
+
+> **Pro/Max only** — not available on Team, Enterprise, or API keys
+
+```bash
+# Start from terminal (new session)
+claude remote-control
+
+# Or from inside an active session:
+/rc        # (or /remote-control)
+```
+
+**Connect from phone/tablet/browser:**
+1. Scan the **QR code** (press spacebar after start)
+2. Or open **session URL** in browser / Claude mobile app
+3. Or: `/mobile` → shows App Store + Play Store links
+
+| ⚠️ Known Limitation | Detail |
+|--------------------|--------|
+| 1 session at a time | Only one remote session active |
+| Slash commands broken | `/new`, `/compact` = plain text remotely → use from local terminal |
+| Terminal must stay open | Closing local terminal ends session |
+| Network timeout | ~10 min disconnect → session expires |
+
+**Advanced: tmux multi-session** (bypass 1-session limit)
+```bash
+tmux new-session -s dev
+# Each pane = its own claude session
+# Run /rc in the pane you want to control remotely
+```
+
+**Auto-enable:** `/config` → toggle "Remote Control: auto-enable"
+
+**Full doc**: [§9.22 Remote Control](ultimate-guide.md#922-remote-control-mobile-access) | [Security notes](security-hardening.md#remote-control-security)
 
 ---
 

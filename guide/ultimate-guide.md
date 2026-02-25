@@ -186,6 +186,7 @@ Context full → /compact or /clear
   - [9.19 Permutation Frameworks](#919-permutation-frameworks)
   - [9.20 Agent Teams (Multi-Agent Coordination)](#920-agent-teams-multi-agent-coordination)
   - [9.21 Legacy Codebase Modernization](#921-legacy-codebase-modernization)
+  - [9.22 Remote Control (Mobile Access)](#922-remote-control-mobile-access)
 - [10. Reference](#10-reference)
   - [10.1 Commands Table](#101-commands-table)
   - [10.2 Keyboard Shortcuts](#102-keyboard-shortcuts)
@@ -18768,6 +18769,170 @@ The average gains are real and significant. The headline numbers require favorab
 
 ---
 
+## 9.22 Remote Control (Mobile Access)
+
+**Reading time**: 7 minutes
+**Skill level**: Week 2+
+**Status**: Research Preview (as of February 2026)
+**Availability**: Pro and Max plans only — not available on Team, Enterprise, or API keys
+
+Remote Control lets you monitor and control a local Claude Code session from a phone, tablet, or web browser — without migrating anything to the cloud. Your terminal keeps running locally; the mobile/web interface is a remote window onto that session.
+
+> **Key difference from Session Teleportation (§9.16)**: Teleportation *migrates* a session (web → local). Remote Control *mirrors* a local session to a remote viewer. Execution always stays on your local machine.
+
+### How It Works
+
+```
+Local terminal (running claude)
+        │
+        │ HTTPS outbound only (no inbound ports)
+        ▼
+   Anthropic relay
+        │
+        ▼
+Phone / tablet / browser (claude.ai/code or Claude app)
+```
+
+- **Execution**: 100% local — your terminal does all the work
+- **Security**: HTTPS outbound only, zero inbound ports, short-lived scoped credentials
+- **What you can do remotely**: Send messages, approve/deny tool calls, read responses
+
+### Setup
+
+**Requirements:**
+- Claude Code v2.1.51+
+- Active Pro or Max subscription (not Team/Enterprise)
+- Logged in (`/login`)
+
+### Two Ways to Start
+
+**Option A — From the command line (start a new session):**
+
+```bash
+claude remote-control
+
+# Optional flags:
+#   --verbose    Show detailed connection logs
+#   --sandbox    Restrict to sandbox mode
+```
+
+**Option B — From inside an active session:**
+
+```
+/remote-control
+
+# or the shorter alias:
+/rc
+```
+
+### Connecting from Your Device
+
+Once started, Claude Code displays:
+
+1. A **session URL** (open in any browser)
+2. Press **spacebar** to show a **QR code** (scan with your phone)
+3. Or open the **Claude app** (iOS / Android) — your active session appears automatically
+
+To enable remote control on every session by default:
+
+```
+/config   → toggle "Remote Control: auto-enable"
+```
+
+### Download the Mobile App
+
+```
+/mobile   # Shows App Store + Google Play download links
+```
+
+### Known Limitations (Research Preview)
+
+| Limitation | Detail |
+|------------|--------|
+| **1 session at a time** | Only one active remote control session |
+| **Terminal must stay open** | Closing the local terminal ends the session |
+| **Network timeout** | ~10 min before session expires on disconnect |
+| **Slash commands don't work remotely** | `/new`, `/compact`, etc. are treated as plain text in the remote UI |
+| **Pro/Max only** | Not available on Team, Enterprise, or API keys |
+
+> **⚠️ Slash commands limitation**: When you type `/new`, `/compact`, or any slash command in the remote interface (mobile app or browser), they are treated as plain text messages — not forwarded as commands to the local CLI. Use slash commands from your local terminal instead.
+
+### Advanced Patterns (Community-Validated)
+
+#### Multi-Session via tmux (Workaround for 1-Session Limit)
+
+```bash
+# Start a tmux session with multiple panes
+tmux new-session -s dev
+
+# Each tmux pane can run its own claude session:
+# Pane 1: claude → run /rc → share URL with your phone
+# Pane 2: claude (local only)
+# Pane 3: claude (local only)
+
+# To switch which session you're controlling remotely:
+# → Go to pane 2, run /rc (disconnects pane 1's remote, connects pane 2)
+```
+
+Each tmux pane hosts its own Claude session. Only one can use remote-control at a time, but you can switch between sessions by running `/rc` in different panes.
+
+#### Persistent Server Architecture (VM/Cloud)
+
+Remote Control works on remote machines (VMs, cloud servers) running in tmux:
+
+```bash
+# On your cloud server (e.g., Clever Cloud, AWS, etc.):
+tmux new-session -s claude-server
+claude remote-control
+# → Scan QR code from your phone
+# → Control a cloud-hosted Claude session from mobile
+# → Sessions survive laptop reboots (tmux keeps them alive)
+```
+
+This gives you persistent sessions that survive closing your laptop. Combine 6-8 Claude sessions in tmux for continuous uninterrupted work while traveling.
+
+### Alternatives (Pre-Remote Control)
+
+| Alternative | How it worked | Status |
+|-------------|---------------|--------|
+| [happy.engineering](https://happy.engineering) | Open-source remote access for Claude Code | Community-declared obsolete post-RC |
+| OpenClaw | Alternative Claude Code remote interface | Community-declared obsolete post-RC |
+| SSH + mobile terminal | SSH into dev machine, run claude | Still valid for Team/Enterprise users |
+| VS Code Remote | Remote SSH extension + Claude Code | Still valid, more complex setup |
+
+### Security Considerations
+
+> **Full threat model**: [Security Hardening Guide: Remote Control Security](./security-hardening.md#remote-control-security)
+
+**Quick summary:**
+
+- The session URL is a **live access key** — treat it like a password
+- Anyone with the URL can send commands to your local Claude session while active
+- Short-lived credentials + HTTPS outbound-only limits the exposure window
+- Per-command approval prompts on mobile guard against accidental execution (not against active attackers)
+- **Not recommended** on shared or untrusted workstations
+- Corporate machines: verify your security policy even on personal Pro/Max accounts
+
+### Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Session not appearing on phone | Ensure same Claude account, refresh app |
+| QR code not showing | Press spacebar after starting remote-control |
+| Slash commands not working | Type them in your local terminal instead |
+| Session expired | Reconnect: run `/rc` again |
+| Corporate firewall blocking | HTTPS outbound (port 443) must be allowed |
+| "Not available" error | Verify Pro or Max subscription (not Team/Enterprise) |
+
+### Evolution Timeline
+
+| Version | Feature |
+|---------|---------|
+| **2.1.51** | Initial Remote Control feature (Research Preview) |
+| **2.1.53** | Stability improvements and bug fixes |
+
+---
+
 ## 🎯 Section 9 Recap: Pattern Mastery Checklist
 
 Before moving to Section 10 (Reference), verify you understand:
@@ -18797,6 +18962,7 @@ Before moving to Section 10 (Reference), verify you understand:
 
 **Advanced Workflows**:
 - [ ] **Session Teleportation**: Migrate sessions between cloud and local environments
+- [ ] **Remote Control**: Monitor/control local sessions from mobile or browser (Research Preview, Pro/Max)
 - [ ] **Background Tasks**: Run tasks in cloud while working locally (`%` prefix)
 - [ ] **Multi-Instance Scaling**: Understand when/how to orchestrate parallel Claude instances (advanced teams only)
 - [ ] **Agent Teams**: Multi-agent coordination for read-heavy tasks (experimental, Opus 4.6+)
