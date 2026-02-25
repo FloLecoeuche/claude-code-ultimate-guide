@@ -10,7 +10,7 @@ tags: [reference, release]
 > **Full details**: [github.com/anthropics/claude-code/CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
 > **Machine-readable**: [claude-code-releases.yaml](../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.52 | **Updated**: 2026-02-24
+**Latest**: v2.1.56 | **Updated**: 2026-02-25
 
 ---
 
@@ -24,6 +24,25 @@ tags: [reference, release]
 ---
 
 ## 2.1.x Series (January-February 2026)
+
+### v2.1.56 (2026-02-25)
+
+- **Fixed**: VSCode: Another cause of "command 'claude-vscode.editor.openLast' not found" crashes
+
+### v2.1.55 (2026-02-25)
+
+- **Fixed**: BashTool failing on Windows with EINVAL error
+
+### v2.1.53 (2026-02-25)
+
+- **Fixed**: UI flicker where user input briefly disappeared after submission before rendering
+- **Fixed**: Bulk agent kill (ctrl+f) now sends single aggregate notification instead of one per agent, and properly clears command queue
+- **Fixed**: Graceful shutdown sometimes leaving stale sessions when using Remote Control (parallelized teardown)
+- **Fixed**: `--worktree` flag sometimes being ignored on first launch
+- **Fixed**: Panic ("switch on corrupted value") on Windows
+- **Fixed**: Crash when spawning many processes on Windows
+- **Fixed**: Crash in WebAssembly interpreter on Linux x64 & Windows x64
+- **Fixed**: Crash that sometimes occurred after 2 minutes on Windows ARM64
 
 ### v2.1.52 (2026-02-24)
 

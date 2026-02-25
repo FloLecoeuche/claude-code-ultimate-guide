@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Documentation
+
+- **Claude Code Releases**: Updated tracking to v2.1.56 (v2.1.52 → v2.1.56)
+  - v2.1.56: VSCode extension crash fix on Windows
+  - v2.1.55: BashTool EINVAL fix on Windows
+  - v2.1.53: Stability release — Windows panics/crashes, WebAssembly crashes (Linux x64/Windows x64/ARM64), Remote Control shutdown fix
+
+## [3.29.0] - 2026-02-24
+
+### Changed
+
+- **docs/resource-evaluations/agents-md-empirical-study-2602-11988.md** — Ajout section "Réception communautaire"
+  - Nuance clé : la commande `/init` génère un context file LLM-generated → -3% performance (pas "delete your CLAUDE.md")
+  - Lien vers post Charly Wargnier (LinkedIn, 72 reactions) comme exemple de simplification communautaire
+  - Note sur posts paraphrasant l'étude sans valeur ajoutée (ne pas citer comme sources indépendantes)
+
 ## [3.29.0] - 2026-02-24
 
 ### Added
