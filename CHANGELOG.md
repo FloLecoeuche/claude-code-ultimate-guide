@@ -8,6 +8,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Terminal Personalization Settings** — documentation `spinnerVerbs` + `spinnerTipsOverride` dans `guide/ultimate-guide.md` §3.3 Settings & Permissions
+  - Nouvelle section "Terminal Personalization Settings" (ligne 4978) : exemples JSON pour `spinnerVerbs` (mode replace/add) et `spinnerTipsOverride` (avec `excludeDefault: true`)
+  - `settings.json` available keys enrichi : ajout `spinnerVerbs`, `spinnerTipsOverride`, `plansDirectory`, `enableAllProjectMcpServers`
+  - Lien vers exemple complet dans la section du guide
+  - Nouveau fichier `examples/config/settings-personalization.json` — 183 lignes, 19 verbes custom, 113+ tips en 13 catégories (Context, Shortcuts, Prompting, Models, Plan Mode, Memory, Golden Rules, MCP, Tasks, CI/CD, Cost, Debug, Remote, Worktrees, Security, Hooks, Agents, Resources)
+  - `machine-readable/reference.yaml` : nouvelle entrée `spinner_personalization` + correction numéro de ligne `permissions_deny_tool_qualified` (4978→5008)
+  - Source : post LinkedIn sur les spinner verbs (évaluation score 3/5, gap confirmé depuis eval #070)
+
+- **Tool-qualified deny format documentation** — nouvelle section dans §3.3 Settings & Permissions (`guide/ultimate-guide.md`)
+  - Table Permission Patterns enrichie : `Read(file_path:*.env*)`, `Edit(file_path:*.pem)`, `Write(file_path:*.key)`, `Bash(command:*rm -rf*)`
+  - Nouvelle section "Tool-qualified deny format" avec exemple complet inspiré de configs production réelles (strangebee, aristote) : syntaxe `Read(file_path:...)` vs format simple `".env"`, glob patterns, note sur la limitation connue `permissions.deny` (GitHub #4160)
+  - Section référence §10.3 Permission Patterns mise à jour avec les 3 nouvelles lignes
+  - Source : analyse comparative de 3 configs `.claude/` production (StrangeBee/TheHive, Méthode Aristote, ccboard)
+
+- **Évaluations de ressources** — 2 nouvelles évaluations dans `docs/resource-evaluations/`
+  - `069-claude-code-best-practice-repo-eval.md` — Évaluation repo `shanraisshan/claude-code-best-practice` (score 4/5) : bug corrigé ligne 5646 (champs officiels agents mal classifiés "community patterns"), patterns intéressants identifiés
+  - `070-claude-code-best-practice-dot-claude-eval.md` — Évaluation config `.claude/` du même repo (score 4/5) : self-evolving agent pattern, Command→Agent→Skills architecture, `allowed-tools` wildcard scoping
+
+### Fixed
+
+- **Bug ligne 5646 `guide/ultimate-guide.md`** — champs frontmatter agents `skills`, `background`, `isolation`, `memory` étaient incorrectement étiquetés "community patterns / not official spec". Remplacés par table officielle complète vérifiée contre `code.claude.com/docs/en/sub-agents`. Champs concernés : `model`, `tools`, `disallowedTools`, `permissionMode`, `maxTurns`, `skills`, `mcpServers`, `hooks`, `memory`, `background`, `isolation`, `color` — tous officiels.
+
+### Changed
+
+- **`ccboard/.claude/settings.json`** — ajout `permissions.deny` avec format tool-qualifié (14 règles) : protection fichiers sensibles (`.env*`, `.pem`, `.key`, `credentials`, `secrets`) et commandes destructives (`rm -rf`, force-push, reset --hard). Config passait de `budget` seul à config de sécurité complète.
+
 - **Boris Cherny / Lenny's Newsletter integration** — 3 insights from Head of Claude Code interview (Feb 19, 2026, Lenny's Newsletter)
   - `guide/ultimate-guide.md` l. 2350 — Ratio empirique "80% Plan Mode" : Boris Cherny démarre ~80% de ses tâches en Plan Mode, blockquote dans la table "When to Use Plan Mode"
   - `guide/ultimate-guide.md` l. 4285 — Nouvelle section "Build for the Model 6 Months Out" dans CLAUDE.md compounding memory : principe stratégique pour concevoir ses workflows en anticipant les modèles futurs

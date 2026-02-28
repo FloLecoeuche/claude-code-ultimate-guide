@@ -4903,7 +4903,7 @@ tar -xzf claude-config-YYYY-MM-DD_HH-MM-SS.tar.gz -C ~/
 
 ### settings.json (Team Configuration)
 
-This file configures hooks, permissions, environment variables, and more. The project-level `.claude/settings.json` is committed to the repo (shared with team). Available keys include: `hooks`, `env`, `allowedTools`, `autoApproveTools`, `dangerouslyAllowedPatterns`, `teammates`, `teammateMode`, `apiKeyHelper`.
+This file configures hooks, permissions, environment variables, and more. The project-level `.claude/settings.json` is committed to the repo (shared with team). Available keys include: `hooks`, `env`, `allowedTools`, `autoApproveTools`, `dangerouslyAllowedPatterns`, `teammates`, `teammateMode`, `apiKeyHelper`, `spinnerVerbs`, `spinnerTipsOverride`, `plansDirectory`, `enableAllProjectMcpServers`.
 
 **Hooks example** (most common use in `.claude/settings.json`):
 
@@ -4975,6 +4975,38 @@ Personal permission overrides (gitignored):
 }
 ```
 
+### Terminal Personalization Settings
+
+Two settings let you customize the text that rotates in the terminal while the agent is working ("Analyzing…", "Prestidigitating…", etc.).
+
+**`spinnerVerbs`** — replaces or extends the action words displayed in the spinner:
+
+```json
+{
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": ["Hacking…", "Spellcasting…", "Overthinking…", "Caffeinating…"]
+  }
+}
+```
+
+Use `"mode": "add"` to extend the default list instead of replacing it.
+
+**`spinnerTipsOverride`** — customizes the tips shown in the spinner. Use `excludeDefault: true` to remove all built-in tips:
+
+```json
+{
+  "spinnerTipsOverride": {
+    "tips": ["Try /compact when context is full", "Use --print for CI pipelines"],
+    "excludeDefault": true
+  }
+}
+```
+
+These go in `~/.claude/settings.json` (personal, not committed) or `.claude/settings.json` (shared with team). Zero functional value — pure UX personalization.
+
+Full example with 80+ guide-derived tips and custom verbs: [`examples/config/settings-personalization.json`](../examples/config/settings-personalization.json)
+
 ### Permission Patterns
 
 | Pattern | Matches |
@@ -4986,6 +5018,33 @@ Personal permission overrides (gitignored):
 | `WebSearch` | Web search capability |
 | `mcp__serena__*` | All Serena MCP tools |
 | `mcp__github__create_issue` | Specific MCP tool (format: `mcp__<server>__<tool>`) |
+| `Read(file_path:*.env*)` | Read matching file paths (tool-qualified format) |
+| `Edit(file_path:*.pem)` | Edit matching file paths (tool-qualified format) |
+| `Write(file_path:*.key)` | Write matching file paths (tool-qualified format) |
+
+**Tool-qualified deny format** — lock down file access by path pattern, not just by tool name:
+
+```json
+{
+  "permissions": {
+    "deny": [
+      "Bash(command:*rm -rf*)",
+      "Bash(command:*terraform destroy*)",
+      "Read(file_path:*.env*)",
+      "Read(file_path:*.pem)",
+      "Read(file_path:*credentials*)",
+      "Edit(file_path:*.env*)",
+      "Edit(file_path:*.key)",
+      "Write(file_path:*.env*)",
+      "Write(file_path:*.key)"
+    ]
+  }
+}
+```
+
+The `file_path:` prefix matches against the full path argument passed to Read/Edit/Write. Use glob patterns (`*`, `**`). This is more granular than the simple string form (e.g. `".env"`) which only matches exact file names.
+
+> **Defense-in-depth**: `permissions.deny` has a known limitation — background indexing may expose file contents via system reminders before permission checks apply ([GitHub #4160](https://github.com/anthropics/claude-code/issues/4160)). Store secrets outside the project directory for guaranteed protection.
 
 ### Permission Behavior
 
@@ -5636,14 +5695,32 @@ tools: Read, Write, Edit, Bash, Grep, Glob
 
 ### Frontmatter Fields
 
+All official fields supported by Claude Code ([source](https://code.claude.com/docs/en/sub-agents)):
+
 | Field | Required | Description |
 |-------|----------|-------------|
 | `name` | ✅ | Kebab-case identifier |
-| `description` | ✅ | When to activate this agent |
-| `model` | ❌ | `sonnet` (default), `opus`, or `haiku` |
-| `tools` | ❌ | Allowed tools (comma-separated) |
+| `description` | ✅ | When to activate this agent (use "PROACTIVELY" for auto-invocation) |
+| `model` | ❌ | `sonnet` (default), `opus`, `haiku`, or `inherit` |
+| `tools` | ❌ | Allowed tools (comma-separated). Supports `Task(agent_type)` syntax to restrict spawnable subagents |
+| `disallowedTools` | ❌ | Tools to deny, removed from inherited or specified list |
+| `permissionMode` | ❌ | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, or `plan` |
+| `maxTurns` | ❌ | Maximum agentic turns before the subagent stops |
+| `skills` | ❌ | Skills to preload into agent context at startup (full content injected, not just available) |
+| `mcpServers` | ❌ | MCP servers for this subagent — server name strings or inline configs |
+| `hooks` | ❌ | Lifecycle hooks scoped to this subagent (`PreToolUse`, `PostToolUse`, `Stop`) |
+| `memory` | ❌ | Persistent memory scope: `user`, `project`, or `local` |
+| `background` | ❌ | `true` to always run as a background task (default: `false`) |
+| `isolation` | ❌ | `worktree` to run in a temporary git worktree (auto-cleaned if no changes) |
+| `color` | ❌ | CLI output color for visual distinction (e.g., `green`, `magenta`) |
 
-> **Community patterns**: Some users add extra fields like `skills`, `background`, `isolation`, or `memory` in their agent definitions. These are not part of the official documented spec but may work as conventions passed through to the agent's system prompt. The officially documented fields are `name`, `description`, `tools`, and `model`.
+**Memory scopes** — choose based on how broadly the knowledge should apply:
+
+| Scope | Storage | Use when |
+|-------|---------|----------|
+| `user` | `~/.claude/agent-memory/<name>/` | Cross-project learning |
+| `project` | `.claude/agent-memory/<name>/` | Project-specific, shareable via git |
+| `local` | `.claude/agent-memory-local/<name>/` | Project-specific, not committed |
 
 ### Model Selection
 
@@ -6210,6 +6287,61 @@ Estimated savings: significant (varies by project)
 
 ---
 
+### The Self-Evolving Agent Pattern
+
+An agent that updates its own skills after each execution. Instead of manually maintaining documentation, the agent reads the current state of its domain and rewrites the knowledge injected into itself.
+
+**When to use**: Long-lived agents whose domain evolves — presentation editors, API clients tracking schema changes, agents managing living documents.
+
+**Core mechanism** (in agent system prompt):
+
+```markdown
+### Step N: Self-Evolution (after every execution)
+
+After completing your main task, update your preloaded skills to stay in sync:
+
+1. Read the current state of [the domain you modified]
+2. Update `.claude/skills/<your-skill>/SKILL.md` to reflect reality
+3. Log what changed and why in a "## Learnings" section of this agent file
+
+This prevents knowledge drift between what you know and what is.
+```
+
+**Full example** — a presentation curator agent that keeps its own layout/weight knowledge fresh:
+
+```yaml
+---
+name: presentation-curator
+description: PROACTIVELY use when updating slides, structure, or weights
+tools: Read, Write, Edit, Grep, Glob
+model: sonnet
+color: magenta
+skills:
+  - presentation/slide-structure
+  - presentation/styling
+---
+
+## Step 5: Self-Evolution (after every execution)
+
+Read presentation/index.html and update your skills:
+- slide-structure skill: update section ranges, weight table, slide count
+- styling skill: update CSS patterns if new ones were introduced
+- Append new findings to the "## Learnings" section below
+
+## Learnings
+_Each run appends findings here. Future invocations start informed._
+- Slide badges are JS-injected — never hardcode them in HTML.
+```
+
+**Why it works**: The `skills:` frontmatter injects skill content at agent startup. By writing back to those files after each run, the agent's next invocation starts with current knowledge. No human maintenance required.
+
+**Key constraints**:
+- Scope updates narrowly — only update what actually changed
+- Keep a `## Learnings` log so the agent builds cumulative knowledge over sessions
+- Pair with `memory: project` for cross-session persistence of broader context
+
+---
+
 # 5. Skills
 
 _Quick jump:_ [Understanding Skills](#51-understanding-skills) · [Creating Skills](#52-creating-skills) · [Skill Template](#53-skill-template) · [Skill Examples](#54-skill-examples)
@@ -6340,11 +6472,26 @@ allowed-tools: Read Grep Bash
 |-------|------|-------------|
 | `name` | [agentskills.io](https://agentskills.io) | Lowercase, 1-64 chars, hyphens only, no `--`, must match directory name |
 | `description` | [agentskills.io](https://agentskills.io) | What the skill does and when to use it (max 1024 chars) |
-| `allowed-tools` | [agentskills.io](https://agentskills.io) | Space-delimited list of pre-approved tools (experimental) |
+| `allowed-tools` | [agentskills.io](https://agentskills.io) | Space-delimited list of pre-approved tools. Supports wildcard scoping: `Bash(npm run *)`, `Bash(agent-browser:*)`, `Edit(/docs/**)` |
 | `license` | [agentskills.io](https://agentskills.io) | License name or reference to bundled file |
 | `compatibility` | [agentskills.io](https://agentskills.io) | Environment requirements (max 500 chars) |
 | `metadata` | [agentskills.io](https://agentskills.io) | Arbitrary key-value pairs (author, version, etc.) |
 | `disable-model-invocation` | **CC only** | `true` to make skill manual-only (workflow with side effects) |
+
+**`allowed-tools` wildcard scoping** — limit a skill to specific command namespaces rather than opening full Bash access:
+
+```yaml
+# Scope to a specific CLI tool only — no other Bash commands allowed
+allowed-tools: Bash(agent-browser:*)
+
+# Scope to npm scripts only
+allowed-tools: Bash(npm run *)
+
+# Read-only + scoped writes
+allowed-tools: Read Grep Glob Edit(/docs/**)
+```
+
+This is more secure than granting broad `Bash` access: the skill can only run commands matching the pattern. Ideal for skills wrapping a specific CLI tool.
 
 > **Open standard**: Agent Skills follow the [agentskills.io specification](https://agentskills.io), created by Anthropic and supported by 30+ platforms (Cursor, VS Code, GitHub, Codex, Gemini CLI, Goose, Roo Code, etc.). Skills you create for Claude Code are portable. The `disable-model-invocation` field is a Claude Code extension.
 
@@ -19221,6 +19368,9 @@ _Quick jump:_ [Commands Table](#101-commands-table) · [Keyboard Shortcuts](#102
 | `Write` | All file writes |
 | `WebSearch` | Web search |
 | `mcp__serena__*` | All Serena tools |
+| `Read(file_path:*.env*)` | Block reading any `.env*` file path |
+| `Edit(file_path:*.pem)` | Block editing `.pem` certificates |
+| `Bash(command:*rm -rf*)` | Block destructive bash commands |
 
 ### CLI Flags Reference
 

@@ -4,7 +4,7 @@
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
 version: "3.29.0"
-updated: "2026-02-23"
+updated: "2026-02-26"
 
 # ════════════════════════════════════════════════════════════════
 # DEEP DIVE - Line numbers in guide/ultimate-guide.md
@@ -282,6 +282,14 @@ deep_dive:
   sync_claude_config_script: "examples/scripts/sync-claude-config.sh"  # Full automation script
   pre_commit_secrets_hook: "examples/hooks/bash/pre-commit-secrets.sh"  # Git hook for secret detection
   settings_local_example: "examples/config/settings.local.json.example"  # Machine-specific overrides template
+  # Tool-qualified deny format (Added 2026-02-26)
+  permissions_deny_tool_qualified: "guide/ultimate-guide.md:5008"  # Permission Patterns table + full example
+  # Terminal personalization (Added 2026-02-27)
+  spinner_personalization: "guide/ultimate-guide.md:4978"  # spinnerVerbs + spinnerTipsOverride settings
+  permissions_deny_tool_qualified_syntax: "Read(file_path:*.env*) | Edit(file_path:*.pem) | Write(file_path:*.key) | Bash(command:*rm -rf*)"
+  permissions_deny_tool_qualified_vs_simple: "file_path: glob matches full path arg; simple '*.env' matches filename only"
+  permissions_deny_known_limitation: "background indexing may expose via system reminders before checks — GitHub #4160"
+  permissions_deny_defense_in_depth: "store secrets outside project dir for guaranteed protection"
   # Visual Reference (ASCII diagrams)
   visual_reference: "guide/visual-reference.md"
   # Architecture internals (guide/architecture.md)
@@ -477,6 +485,14 @@ deep_dive:
   agentskills_guide_section: "guide/ultimate-guide.md:6383"
   agentskills_evaluation: "docs/resource-evaluations/agentskills-io-specification.md"
   agentskills_score: "4/5"
+  # claude-code-best-practice repo evaluations (Added 2026-02-26)
+  ccbp_repo_evaluation: "docs/resource-evaluations/069-claude-code-best-practice-repo-eval.md"
+  ccbp_repo_score: "4/5"
+  ccbp_repo_source: "https://github.com/shanraisshan/claude-code-best-practice"
+  ccbp_repo_critical_finding: "bug at guide/ultimate-guide.md:5646 — official agent fields misclassified as community patterns (fixed)"
+  ccbp_dotclaude_evaluation: "docs/resource-evaluations/070-claude-code-best-practice-dot-claude-eval.md"
+  ccbp_dotclaude_score: "4/5"
+  ccbp_dotclaude_patterns: "self-evolving agent, Command→Agent→Skills architecture, allowed-tools wildcard scoping"
   # Skills Marketplace (added 2026-01-23)
   skills_marketplace: 7212
   skills_marketplace_url: "https://skills.sh/"
@@ -1203,6 +1219,28 @@ agent_template: |
   tools: Read, Write, Edit, Bash
   ---
   # Instructions here
+
+# Agent frontmatter — all official fields (verified 2026-02-26 against code.claude.com/docs/en/sub-agents)
+agent_frontmatter_official_fields:
+  name: "display name + /slash-command trigger"
+  description: "trigger description (required for auto-discovery)"
+  model: "sonnet (default) | opus | haiku | inherit"
+  tools: "comma-separated list: Read, Write, Edit, Bash, Grep, Glob, Task(agent_type)..."
+  disallowedTools: "tools to block (array)"
+  permissionMode: "default | acceptEdits | dontAsk | bypassPermissions | plan"
+  maxTurns: "integer — limit agent turns"
+  skills: "skills to preload at startup (full content injected)"
+  mcpServers: "MCP server configs"
+  hooks: "lifecycle hooks (same format as settings.json hooks)"
+  memory: "user | project | local — persistent memory scope"
+  background: "true = always run as background task"
+  isolation: "worktree = temporary git worktree isolation"
+  color: "CLI output color"
+agent_frontmatter_memory_scopes:
+  user: "~/.claude/memory/<agent-name>.md — cross-project"
+  project: ".claude/memory/<agent-name>.md — shared with team"
+  local: ".claude/memory/<agent-name>.local.md — gitignored"
+agent_frontmatter_guide_line: 5639  # Official fields table in ultimate-guide.md
 
 # ════════════════════════════════════════════════════════════════
 # HOOK EVENTS - see deep_dive.hooks
