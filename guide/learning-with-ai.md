@@ -1104,6 +1104,7 @@ Practitioner reports from real-world usage provide empirical validation of theor
 
 ### In This Guide
 
+- [AI Roles & Career Paths](./ai-roles.md) — Map of emerging AI roles (Prompt Engineer → Harness Engineer) with career matrix and salary benchmarks
 - [Methodologies: TDD with Claude](./methodologies.md#tier-5-implementation) — Write tests first, then implement
 - [Workflows: Spec-First](./workflows/spec-first.md) — Understand requirements before code
 - [Workflows: Plan-Driven](./workflows/plan-driven.md) — Use /plan mode for complex work

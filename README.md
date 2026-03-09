@@ -97,7 +97,7 @@ claude "Fetch and follow the onboarding instructions from: https://raw.githubuse
 | [Methodologies](./guide/methodologies.md) | TDD, SDD, BDD, GSD — full workflow guides with rationale |
 | [Architecture](./guide/architecture.md) | How Claude Code works internally (context flow, tool orchestration) |
 | [Claude Code Releases](./guide/claude-code-releases.md) | Condensed official changelog with highlights |
-| [Resource Evaluations](./docs/resource-evaluations/) | 84 evidence-based assessments (5-point scoring) |
+| [Resource Evaluations](./docs/resource-evaluations/) | 115 evidence-based assessments (5-point scoring) |
 | [AI Roles & Career Paths](./guide/ai-roles.md) | 13 roles mapped — from Prompt Engineer to Harness Engineer, with career matrix and salary benchmarks |
 
 ---
