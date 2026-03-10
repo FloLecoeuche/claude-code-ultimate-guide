@@ -546,7 +546,7 @@ If you're hiring for any of the roles described in this guide, [reach out](https
 ## See Also
 
 - [Learning to Code with AI](./learning-with-ai.md) — skill development for developers using AI
-- [AI Ecosystem: Tools & Integrations](./ai-ecosystem.md) — which tools each role uses
-- [Methodologies](./methodologies.md) — TDD, SDD, BDD workflows relevant to AI engineers
-- [Architecture](./architecture.md) — how Claude Code works, relevant for AI agent engineers
-- [Security Hardening](./security-hardening.md) — critical reading for AI Safety engineers and Platform engineers
+- [AI Ecosystem: Tools & Integrations](../ecosystem/ai-ecosystem.md) — which tools each role uses
+- [Methodologies](../core/methodologies.md) — TDD, SDD, BDD workflows relevant to AI engineers
+- [Architecture](../core/architecture.md) — how Claude Code works, relevant for AI agent engineers
+- [Security Hardening](../security/security-hardening.md) — critical reading for AI Safety engineers and Platform engineers

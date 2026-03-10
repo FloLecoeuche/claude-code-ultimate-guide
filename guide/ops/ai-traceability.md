@@ -625,7 +625,7 @@ API_KEY = os.environ['API_KEY']
 - Explicit permission prompts for file access
 - Diff review before commits
 
-See [Security Hardening](./security-hardening.md) for full guidance.
+See [Security Hardening](../security/security-hardening.md) for full guidance.
 
 ### 6.2 Non-Determinism Risk
 
@@ -795,8 +795,8 @@ See full template: [examples/config/PULL_REQUEST_TEMPLATE-ai.md](../examples/con
 ### In This Guide
 
 - [Git Workflow](./ultimate-guide.md#git-workflow) — Claude Code's default Co-Authored-By behavior
-- [Learning with AI](./learning-with-ai.md#the-vibe-coding-trap) — Why understanding AI code matters
-- [Security Hardening](./security-hardening.md) — Protecting against prompt injection and other attacks
+- [Learning with AI](../roles/learning-with-ai.md#the-vibe-coding-trap) — Why understanding AI code matters
+- [Security Hardening](../security/security-hardening.md) — Protecting against prompt injection and other attacks
 
 ### External Resources
 

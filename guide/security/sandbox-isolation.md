@@ -463,7 +463,7 @@ Open-source sandbox platform for AI agents and LLM applications.
 
 > **Source**: [code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing)
 
-Claude Code's built-in process-level sandboxing (Layer 4 in the [architecture](./architecture.md)).
+Claude Code's built-in process-level sandboxing (Layer 4 in the [architecture](../core/architecture.md)).
 
 - **No external dependencies**: Works out of the box
 - **Process isolation**: Restricts what commands Claude can execute
@@ -558,7 +558,7 @@ For CI/CD, cloud sandboxes (E2B, Vercel, Sprites) are typically better than Dock
 
 ## See Also
 
-- [architecture.md](./architecture.md) — Layer 4 (Sub-Agent Architecture) and permission model
+- [architecture.md](../core/architecture.md) — Layer 4 (Sub-Agent Architecture) and permission model
 - [security-hardening.md](./security-hardening.md) — MCP vetting, injection defense, CVE tracking
 - [code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing) — Official Claude Code sandbox docs
 - [docs.docker.com/ai/sandboxes/](https://docs.docker.com/ai/sandboxes/) — Docker Sandboxes documentation

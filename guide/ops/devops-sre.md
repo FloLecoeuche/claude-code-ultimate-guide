@@ -314,7 +314,7 @@ Understanding limitations prevents frustration and unsafe reliance.
 - **Highly confidential incidents**: Data breach investigation (legal implications)
 - **Simple, obvious fixes**: If you know the answer, just do it
 - **Compliance-restricted environments**: Check if AI tools are allowed
-- **AI-specific security incidents**: Prompt injection detected, MCP compromised, agent exfiltrating data → See [Security Hardening — Response](./security-hardening.md#part-3-response-when-things-go-wrong) for dedicated procedures (kill switch architecture, containment levels, incident timelines)
+- **AI-specific security incidents**: Prompt injection detected, MCP compromised, agent exfiltrating data → See [Security Hardening — Response](../security/security-hardening.md#part-3-response-when-things-go-wrong) for dedicated procedures (kill switch architecture, containment levels, incident timelines)
 
 ### When Claude Excels
 
@@ -868,8 +868,8 @@ approval_required:
 
 - **[Agent Template](../examples/agents/devops-sre.md)**: DevOps/SRE agent persona for Claude
 - **[CLAUDE.md Template](../examples/claude-md/devops-sre.md)**: Project configuration for DevOps teams
-- **[Security Hardening Guide](./security-hardening.md)**: Additional security practices
-- **[Architecture Guide](./architecture.md)**: How Claude Code works internally
+- **[Security Hardening Guide](../security/security-hardening.md)**: Additional security practices
+- **[Architecture Guide](../core/architecture.md)**: How Claude Code works internally
 
 ---
 

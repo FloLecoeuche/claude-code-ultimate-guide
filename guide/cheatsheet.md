@@ -221,7 +221,7 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 | **Sub-agents** | Isolated context, max depth=1 |
 | **Philosophy** | "Less scaffolding, more model" — trust Claude's reasoning |
 
-**Deep dive**: [Architecture & Internals](./architecture.md)
+**Deep dive**: [Architecture & Internals](./core/architecture.md)
 
 ---
 
@@ -604,6 +604,24 @@ where.exe claude; claude doctor; claude mcp list
 | **Entire CLI** | Session checkpoints + governance | [entire.io](https://entire.io) (Feb 2026) |
 
 > **Entire CLI**: Agent-native platform by ex-GitHub CEO with rewindable checkpoints, approval gates, audit trails. For compliance (SOC2, HIPAA) or multi-agent workflows.
+
+---
+
+## Search Tools Quick Reference
+
+Quick decision (5 seconds): exact text → `rg` | exact name → `rg`/Serena | concept → grepai | structure → ast-grep
+
+| Task | Tool | Command |
+|------|------|---------|
+| "Find TODO comments" | `rg` | `rg "TODO"` |
+| "Find auth code" | `grepai` | `grepai search "authentication"` |
+| "Who calls login?" | `grepai` | `grepai trace callers "login"` |
+| "Get file structure" | `Serena` | `serena get_symbols_overview` |
+| "Async without try/catch" | `ast-grep` | `ast-grep "async function $F"` |
+
+Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms)
+
+> Full workflows: [workflows/search-tools-mastery.md](./workflows/search-tools-mastery.md)
 
 ---
 

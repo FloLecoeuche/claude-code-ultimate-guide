@@ -671,7 +671,7 @@ fi
 
 **Status:** Production v1.0+, SOC2 Type II certified (Entire CLI platform)
 
-> **Full docs**: [AI Traceability Guide](./ai-traceability.md#51-entire-cli), [Third-Party Tools](./third-party-tools.md)
+> **Full docs**: [AI Traceability Guide](../ops/ai-traceability.md#51-entire-cli), [Third-Party Tools](../ecosystem/third-party-tools.md)
 
 ### 3.5 AI Kill Switch & Containment Architecture
 
@@ -856,7 +856,7 @@ Beyond securing Claude Code itself, Anthropic offers a dedicated vulnerability s
 ## See Also
 
 - [Data Privacy Guide](./data-privacy.md) — Retention policies, compliance, what data leaves your machine
-- [AI Traceability](./ai-traceability.md) — PromptPwnd vulnerability, CI/CD security, attribution policies
+- [AI Traceability](../ops/ai-traceability.md) — PromptPwnd vulnerability, CI/CD security, attribution policies
 - [Security Checklist Skill](../examples/skills/security-checklist.md) — OWASP Top 10 patterns for code review
 - [Security Auditor Agent](../examples/agents/security-auditor.md) — Automated vulnerability detection (read-only)
 - [Security Patcher Agent](../examples/agents/security-patcher.md) — Applies patches from audit findings (human approval required)

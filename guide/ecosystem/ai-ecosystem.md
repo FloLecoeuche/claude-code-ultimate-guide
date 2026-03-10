@@ -1715,7 +1715,7 @@ entire handoff --to="gemini" --task="ui-polish" --require-approval
 
 **Status:** Production v1.0+ (macOS/Linux, Windows via WSL)
 
-> **Full docs**: [AI Traceability Guide](./ai-traceability.md#51-entire-cli), [Third-Party Tools](./third-party-tools.md)
+> **Full docs**: [AI Traceability Guide](../ops/ai-traceability.md#51-entire-cli), [Third-Party Tools](./third-party-tools.md)
 
 #### Security & Cost Warnings
 

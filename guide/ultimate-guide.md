@@ -796,7 +796,7 @@ You: /exit
 Session ID: abc123def (saved for resume)
 ```
 
-> **Session Search Tools**: For fast session search, see [session-search.sh](../examples/scripts/session-search.sh) (bash, lightweight) and [cc-sessions.py](../examples/scripts/cc-sessions.py) (Python, advanced features: incremental index, partial ID resume, branch filter). Also: [Observability Guide](./observability.md#session-search--resume).
+> **Session Search Tools**: For fast session search, see [session-search.sh](../examples/scripts/session-search.sh) (bash, lightweight) and [cc-sessions.py](../examples/scripts/cc-sessions.py) (Python, advanced features: incremental index, partial ID resume, branch filter). Also: [Observability Guide](./ops/observability.md#session-search--resume).
 
 **Common use cases**:
 
@@ -834,7 +834,7 @@ Claude: [Continues with full context of Day 1 work]
 - **Proactive context management**: Monitor with `/status` and use research-backed thresholds:
   - **< 70%**: Optimal — full reasoning capacity
   - **75%**: Auto-compact triggers — Claude Code compresses automatically
-  - **85%**: Manual handoff recommended — start a [session handoff](#session-handoffs) before auto-compact degrades quality ([research-backed](../architecture.md#auto-compaction))
+  - **85%**: Manual handoff recommended — start a [session handoff](#session-handoffs) before auto-compact degrades quality ([research-backed](../core/architecture.md#auto-compaction))
   - **95%**: Force handoff — severe quality degradation, reset immediately
 - **Session naming**: Use `/rename` to give sessions descriptive names — critical when running multiple sessions in parallel (see [Auto-Rename Pattern](#session-auto-rename) below)
 
@@ -2184,7 +2184,7 @@ ccusage --model-breakdown  # Cost by model (Sonnet/Opus/Haiku)
 - **Budget planning**: Set monthly spending targets
 - **Team analytics**: Aggregate costs across developers
 
-> For a full inventory of community cost trackers, session viewers, config managers, and alternative UIs, see [Third-Party Tools](./third-party-tools.md).
+> For a full inventory of community cost trackers, session viewers, config managers, and alternative UIs, see [Third-Party Tools](./ecosystem/third-party-tools.md).
 
 **Monthly tracking**:
 
@@ -3842,20 +3842,20 @@ When you use Claude Code, the following data leaves your machine:
 }
 ```
 
-> **Warning**: `permissions.deny` has known limitations. See [Security Hardening Guide](./security-hardening.md#known-limitations-of-permissionsdeny) for details.
+> **Warning**: `permissions.deny` has known limitations. See [Security Hardening Guide](./security/security-hardening.md#known-limitations-of-permissionsdeny) for details.
 
 **2. Never connect production databases** to MCP servers. Use dev/staging with anonymized data.
 
 **3. Use security hooks** to block reading of sensitive files (see [Section 7.4](#74-hooks-automating-workflows)).
 
-> **Full guide**: For complete privacy documentation including known risks, community incidents, and enterprise considerations, see [Data Privacy & Retention Guide](./data-privacy.md).
+> **Full guide**: For complete privacy documentation including known risks, community incidents, and enterprise considerations, see [Data Privacy & Retention Guide](./security/data-privacy.md).
 
 ## 2.11 Under the Hood
 
 > **Reading time**: 5 minutes
 > **Goal**: Understand the core architecture that powers Claude Code
 
-This section provides a summary of Claude Code's internal mechanisms. For the complete technical deep-dive with diagrams and source citations, see the [Architecture & Internals Guide](./architecture.md).
+This section provides a summary of Claude Code's internal mechanisms. For the complete technical deep-dive with diagrams and source citations, see the [Architecture & Internals Guide](./core/architecture.md).
 
 ### The Master Loop
 
@@ -4162,7 +4162,7 @@ Claude Code operates within a **200K token context window** (1M beta available v
 | Tool results | Variable |
 | Reserved for response | 40-45K tokens |
 
-When context fills up (~75% in VS Code, ~95% in CLI), older content is automatically summarized. However, **research shows this degrades quality** (50-70% performance drop on complex tasks). Use `/compact` proactively at logical breakpoints, or trigger **session handoffs at 85%** to preserve intent over compressed history. See [Session Handoffs](line 2140) and [Auto-Compaction Research](../architecture.md#auto-compaction).
+When context fills up (~75% in VS Code, ~95% in CLI), older content is automatically summarized. However, **research shows this degrades quality** (50-70% performance drop on complex tasks). Use `/compact` proactively at logical breakpoints, or trigger **session handoffs at 85%** to preserve intent over compressed history. See [Session Handoffs](line 2140) and [Auto-Compaction Research](../core/architecture.md#auto-compaction).
 
 ### Sub-Agent Isolation
 
@@ -4364,7 +4364,7 @@ Claude Code trusts the model's reasoning instead of building complex orchestrati
 
 | Topic | Where |
 |-------|-------|
-| Full architecture details | [Architecture & Internals Guide](./architecture.md) |
+| Full architecture details | [Architecture & Internals Guide](./core/architecture.md) |
 | Permission system | [Section 7 - Hooks](#7-hooks) |
 | MCP integration | [Section 8.6 - MCP Security](#86-mcp-security) |
 | Context management tips | [Section 2.2](#22-context-management) |
@@ -7855,7 +7855,7 @@ Design a fintech app with dark theme
 
 ### DevOps & SRE Guide
 
-For comprehensive DevOps/SRE workflows, see **[DevOps & SRE Guide](./devops-sre.md)**:
+For comprehensive DevOps/SRE workflows, see **[DevOps & SRE Guide](./ops/devops-sre.md)**:
 - **The FIRE Framework**: First Response → Investigate → Remediate → Evaluate
 - **Kubernetes troubleshooting**: Prompts by symptom (CrashLoopBackOff, OOMKilled, etc.)
 - **Incident response**: Solo and multi-agent patterns
@@ -7983,7 +7983,7 @@ cp -r /tmp/agent-skills/react-best-practices .claude/skills/
 - [Gen + Vercel: Agent Trust Hub partnership](https://www.prnewswire.com/news-releases/gen-and-vercel-partner-to-bring-independent-safety-verification-to-the-ai-skills-ecosystem-302691006.html)
 - [GitHub: vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills)
 - [Platform Claude Docs: Skill Best Practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
-- See also: [AI Ecosystem Guide](./ai-ecosystem.md) for complementary tools
+- See also: [AI Ecosystem Guide](./ecosystem/ai-ecosystem.md) for complementary tools
 
 ---
 
@@ -9232,9 +9232,9 @@ exit 0
 
 Security hooks are critical for protecting your system.
 
-> **Advanced patterns**: For comprehensive security including Unicode injection detection, MCP config integrity verification, and CVE-specific mitigations, see [Security Hardening Guide](./security-hardening.md).
+> **Advanced patterns**: For comprehensive security including Unicode injection detection, MCP config integrity verification, and CVE-specific mitigations, see [Security Hardening Guide](./security/security-hardening.md).
 
-> **Claude Code Security (research preview)**: Anthropic offers a dedicated codebase vulnerability scanner that traces data flows across files, challenges findings internally before surfacing them (adversarial validation), and generates patch suggestions. Separate from the Security Auditor Agent above — waitlist access only. See [Security Hardening Guide → Claude Code as Security Scanner](./security-hardening.md#claude-code-as-security-scanner-research-preview).
+> **Claude Code Security (research preview)**: Anthropic offers a dedicated codebase vulnerability scanner that traces data flows across files, challenges findings internally before surfacing them (adversarial validation), and generates patch suggestions. Separate from the Security Auditor Agent above — waitlist access only. See [Security Hardening Guide → Claude Code as Security Scanner](./security/security-hardening.md#claude-code-as-security-scanner-research-preview).
 >
 > **Validated at scale**: In a March 2026 partnership with Mozilla, Claude Opus 4.6 scanned ~6,000 C++ files in Firefox's JS engine in two weeks, surfacing 22 confirmed vulnerabilities (14 high severity) — roughly one fifth of all high-severity Firefox CVEs fixed in 2025. Demonstrates the model's practical depth for production security work, well beyond surface-level linting.
 
@@ -9498,7 +9498,7 @@ echo '{"tool_name":"Read","tool_input":{"file_path":"$HOME/.env"}}' | \
 # Should exit 1 and show "Variable expansion detected"
 ```
 
-> **Cross-reference**: For full security hardening including CVE-specific mitigations and MCP config integrity, see [Security Hardening Guide](./security-hardening.md).
+> **Cross-reference**: For full security hardening including CVE-specific mitigations and MCP config integrity, see [Security Hardening Guide](./security/security-hardening.md).
 
 ## 7.5 Hook Examples
 
@@ -10162,7 +10162,7 @@ MCP Apps is built on the **Model Context Protocol** (open standard by Anthropic)
 - **SDK**: `@modelcontextprotocol/ext-apps` (npm)
 - **"Build once, deploy everywhere"**: Works in Claude, VS Code, ChatGPT, Goose
 
-→ **Deep dive**: See [guide/architecture.md:656](./architecture.md#mcp-extensions-apps-sep-1865) for technical architecture, security model, and SDK details.
+→ **Deep dive**: See [guide/architecture.md:656](./core/architecture.md#mcp-extensions-apps-sep-1865) for technical architecture, security model, and SDK details.
 
 #### Resources
 
@@ -11585,7 +11585,7 @@ A `claude-code-guide` agent is included in `.claude/agents/claude-code-guide.md`
 
 Beyond the official servers listed above, the MCP ecosystem includes **validated community servers** that extend Claude Code's capabilities with specialized integrations.
 
-**📖 Complete Guide**: See **[MCP Servers Ecosystem](./mcp-servers-ecosystem.md)** for:
+**📖 Complete Guide**: See **[MCP Servers Ecosystem](./ecosystem/mcp-servers-ecosystem.md)** for:
 
 - **8 validated production-ready servers**: Playwright (Microsoft), Semgrep, Kubernetes (Red Hat), Context7, Linear, Vercel, Browserbase, MCP-Compose
 - **Evaluation framework**: How servers are validated (stars, releases, docs, tests, security)
@@ -11730,7 +11730,7 @@ claude mcp add --help
 
 #### Security Principles
 
-Before implementing secrets management, understand the baseline requirements from [Security Hardening Guide](./security-hardening.md):
+Before implementing secrets management, understand the baseline requirements from [Security Hardening Guide](./security/security-hardening.md):
 
 - **Encryption at rest**: Secrets must be encrypted on disk (OS keychain > plaintext .env)
 - **Least privilege**: Use read-only credentials when possible
@@ -12648,7 +12648,7 @@ These tools solve different problems at different stages of the development cycl
 
 MCP servers extend Claude Code's capabilities, but they also expand its attack surface. Before installing any MCP server, especially community-created ones, apply the same security scrutiny you'd use for any third-party code dependency.
 
-> **CVE details & advanced vetting**: For documented CVEs (2025-53109/53110, 54135, 54136), MCP Safe List, and incident response procedures, see [Security Hardening Guide](./security-hardening.md).
+> **CVE details & advanced vetting**: For documented CVEs (2025-53109/53110, 54135, 54136), MCP Safe List, and incident response procedures, see [Security Hardening Guide](./security/security-hardening.md).
 
 ### Pre-Installation Checklist
 
@@ -14784,8 +14784,8 @@ exit 0  # Allow
 - Use `--add-dir` to allow tool access to directories outside the current working directory
 - Manage thinking mode for cost efficiency:
   - Simple tasks: Alt+T to disable thinking → faster, cheaper
-  - Complex tasks: Leave thinking enabled (default in Opus 4.5)
-  - Note: Keywords like "ultrathink" no longer have effect
+  - Complex tasks: Leave thinking enabled (default in Opus 4.6)
+  - `ultrathink` keyword forces high effort for the next turn specifically (re-introduced in v2.1.68)
 - Set `cleanupPeriodDays` in config to prune old sessions automatically
 - Use `/compact` proactively when context reaches 70%
 - Block sensitive files with `permissions.deny` in settings.json
@@ -15207,7 +15207,7 @@ For comprehensive AI code attribution beyond Co-Authored-By, including:
 - git-ai checkpoint tracking
 - Team and enterprise compliance patterns
 
-See: [AI Traceability Guide](./ai-traceability.md)
+See: [AI Traceability Guide](./ops/ai-traceability.md)
 
 **Customize commit style in CLAUDE.md:**
 
@@ -16351,7 +16351,7 @@ Time savings from effective Claude Code usage typically far outweigh API costs f
 
 ## 9.14 Development Methodologies
 
-> **Full reference**: [methodologies.md](./methodologies.md) | **Hands-on workflows**: [workflows/](./workflows/)
+> **Full reference**: [methodologies.md](./core/methodologies.md) | **Hands-on workflows**: [workflows/](./workflows/)
 
 15 structured development methodologies have emerged for AI-assisted development (2025-2026). This section provides quick navigation; detailed workflows are in dedicated files.
 
@@ -16385,7 +16385,7 @@ Time savings from effective Claude Code usage typically far outweigh API costs f
 | Implementation | TDD, Eval-Driven, Multi-Agent | ⭐⭐⭐ Core workflows |
 | Optimization | Iterative Loops, Prompt Engineering | ⭐⭐⭐ Foundation |
 
-→ Full descriptions with examples: [methodologies.md](./methodologies.md)
+→ Full descriptions with examples: [methodologies.md](./core/methodologies.md)
 
 ### SDD Tools (External)
 
@@ -17538,7 +17538,7 @@ Don't jump to 10 instances. Scale progressively with validation gates.
 | **multiclaude** | Self-hosted spawner | Teams needing on-prem/airgap |
 | **Entire CLI** | Governance + handoffs | Sequential workflows with compliance |
 
-> **Entire CLI** (Feb 2026): Alternative to parallel orchestration, focuses on **sequential agent handoffs** with governance layer (approval gates, audit trails). Useful for compliance-critical workflows (SOC2, HIPAA) or multi-agent handoffs (Claude → Gemini). See [AI Ecosystem Guide](./ai-ecosystem.md#entire-cli-governance-first-orchestration) for details.
+> **Entire CLI** (Feb 2026): Alternative to parallel orchestration, focuses on **sequential agent handoffs** with governance layer (approval gates, audit trails). Useful for compliance-critical workflows (SOC2, HIPAA) or multi-agent handoffs (Claude → Gemini). See [AI Ecosystem Guide](./ecosystem/ai-ecosystem.md#entire-cli-governance-first-orchestration) for details.
 
 **Success criteria**: Sustained 3-5% productivity gain over 3 months.
 
@@ -17566,7 +17566,7 @@ Track multi-instance workflows with metrics to validate ROI.
 ./examples/scripts/session-stats.sh --project backend --range 30d
 ```
 
-**See also**: [Session Observability Guide](./observability.md)
+**See also**: [Session Observability Guide](./ops/observability.md)
 
 #### Warning Signs (Rollback Triggers)
 
@@ -17658,7 +17658,7 @@ New feature request
 **Related guides**:
 - [Git worktrees command](../examples/commands/git-worktree.md)
 - [Database branch setup workflow](../examples/workflows/database-branch-setup.md)
-- [Session observability](./observability.md)
+- [Session observability](./ops/observability.md)
 - [Cost optimization](#913-cost-optimization-strategies)
 
 **Community discussions**:
@@ -20107,7 +20107,7 @@ This section is a quick overview. For complete guide:
 **Related patterns**:
 - [§9.17 Multi-Instance Workflows](#917-scaling-patterns-multi-instance-workflows) — Manual parallel coordination
 - [§4.3 Sub-Agents](#43-sub-agents) — Single-agent task delegation
-- [AI Ecosystem: Beads Framework](./ai-ecosystem.md) — Alternative orchestration (Gas Town)
+- [AI Ecosystem: Beads Framework](./ecosystem/ai-ecosystem.md) — Alternative orchestration (Gas Town)
 
 **Official sources**:
 - [Introducing Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6) (Anthropic, Feb 2026)
@@ -20383,7 +20383,7 @@ This gives you persistent sessions that survive closing your laptop. Combine 6-8
 
 ### Security Considerations
 
-> **Full threat model**: [Security Hardening Guide: Remote Control Security](./security-hardening.md#remote-control-security)
+> **Full threat model**: [Security Hardening Guide: Remote Control Security](./security/security-hardening.md#remote-control-security)
 
 **Quick summary:**
 
@@ -21932,7 +21932,7 @@ Use when: You need to quickly understand a new codebase or create audio overview
 
 **When to use**: Joining new team, reviewing unfamiliar codebase, onboarding prep.
 
-> **💡 MCP Integration Available**: You can now query NotebookLM notebooks directly from Claude Code using the NotebookLM MCP server. See [ai-ecosystem.md § 4.1](./ai-ecosystem.md#41-notebooklm-mcp-integration) for installation and usage guide.
+> **💡 MCP Integration Available**: You can now query NotebookLM notebooks directly from Claude Code using the NotebookLM MCP server. See [ai-ecosystem.md § 4.1](./ecosystem/ai-ecosystem.md#41-notebooklm-mcp-integration) for installation and usage guide.
 
 ### Presentation Pipeline
 
@@ -22014,7 +22014,7 @@ claude
 
 ---
 
-> **📖 Deep Dive**: For detailed integration patterns, ready-to-use prompts, and tool comparisons, see the [complete AI Ecosystem guide](./ai-ecosystem.md).
+> **📖 Deep Dive**: For detailed integration patterns, ready-to-use prompts, and tool comparisons, see the [complete AI Ecosystem guide](./ecosystem/ai-ecosystem.md).
 
 ### For Non-Developers: Claude Cowork
 
@@ -22031,7 +22031,7 @@ If you work with non-technical team members, **Cowork** brings Claude's agentic 
 **Collaboration pattern**: Developers use Claude Code for specs → PMs use Cowork for stakeholder summaries. Shared context via `~/Shared/CLAUDE.md`.
 
 > **Availability**: Pro ($20/mo) or Max ($100-200/mo) subscribers, macOS only (Jan 2026).
-> See [AI Ecosystem Section 9](./ai-ecosystem.md#9-claude-cowork-research-preview) for details.
+> See [AI Ecosystem Section 9](./ecosystem/ai-ecosystem.md#9-claude-cowork-research-preview) for details.
 
 ## Further Reading
 

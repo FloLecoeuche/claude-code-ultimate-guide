@@ -429,8 +429,8 @@ Metrics are useless without action:
 
 - **[Agents](./ultimate-guide.md#4-agents)**: Creating custom agents
 - **[Hooks](./ultimate-guide.md#5-hooks)**: Automation with event hooks
-- **[Observability](./observability.md)**: Logging and monitoring strategies
-- **[AI Ecosystem](./ai-ecosystem.md#82-domain-specific-agent-frameworks)**: External frameworks like nao
+- **[Observability](../ops/observability.md)**: Logging and monitoring strategies
+- **[AI Ecosystem](../ecosystem/ai-ecosystem.md#82-domain-specific-agent-frameworks)**: External frameworks like nao
 
 ---
 

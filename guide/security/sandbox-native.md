@@ -724,7 +724,7 @@ which bubblewrap socat
 ## 14. See Also
 
 - [Sandbox Isolation (Docker, Cloud)](./sandbox-isolation.md) - microVM-based sandboxing for maximum isolation
-- [Architecture: Permission Model](./architecture.md#5-permission--security-model) - How permissions and sandboxing interact
+- [Architecture: Permission Model](../core/architecture.md#5-permission--security-model) - How permissions and sandboxing interact
 - [Official Docs: Sandboxing](https://code.claude.com/docs/en/sandboxing) - Anthropic's official reference
 - [Official Docs: Security](https://code.claude.com/docs/en/security) - Comprehensive security features
 - [Official Docs: IAM](https://code.claude.com/docs/en/iam) - Permission configuration

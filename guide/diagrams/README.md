@@ -8,7 +8,7 @@ tags: [reference, architecture, diagrams, mermaid]
 
 41 interactive Mermaid diagrams organized in 10 thematic files. Each diagram includes a Mermaid version (rendered natively on GitHub) and an ASCII fallback.
 
-> For ASCII-only diagrams and a printable visual reference → [visual-reference.md](../visual-reference.md)
+> For ASCII-only diagrams and a printable visual reference → [visual-reference.md](../core/visual-reference.md)
 
 ---
 
@@ -95,4 +95,4 @@ All diagrams use the consistent Bold Guy palette:
 
 ---
 
-*Back to [guide/README.md](../README.md) | ASCII diagrams → [visual-reference.md](../visual-reference.md)*
+*Back to [guide/README.md](../README.md) | ASCII diagrams → [visual-reference.md](../core/visual-reference.md)*

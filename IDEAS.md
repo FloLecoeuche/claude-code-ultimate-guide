@@ -7,7 +7,7 @@
 ### MCP Security Hardening ✅
 Unified security research covering MCP vulnerabilities, prompt injection, and secret detection.
 
-**Completed**: [Security Hardening Guide](./guide/security-hardening.md) covers:
+**Completed**: [Security Hardening Guide](./guide/security/security-hardening.md) covers:
 - CVE-2025-53109/53110, 54135, 54136 with mitigations
 - MCP vetting workflow with 5-minute audit checklist
 - MCP Safe List (community vetted)
@@ -119,7 +119,7 @@ Schema-first development impact on Claude Code token consumption.
 - [ ] 5+ community discussions/issues requesting this topic
 
 **If validated (score upgrade to 4/5):**
-- Add subsection in `guide/methodologies.md` (after CDD, line 172)
+- Add subsection in `guide/core/methodologies.md` (after CDD, line 172)
 - Use micro-integration template: `docs/resource-evaluations/shiptypes-evaluation.md` (section "Integration Plan")
 
 **Check again:** August 2026

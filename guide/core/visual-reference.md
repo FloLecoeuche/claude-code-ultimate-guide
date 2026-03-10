@@ -297,7 +297,7 @@ What data leaves your machine when using Claude Code:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-→ Source: [data-privacy.md:24](./data-privacy.md)
+→ Source: [data-privacy.md:24](../security/data-privacy.md)
 
 ---
 
@@ -320,7 +320,7 @@ How a malicious MCP server can exploit the one-time approval model:
 MITIGATION: Version pinning + hash verification + monitoring
 ```
 
-→ Source: [security-hardening.md:33](./security-hardening.md)
+→ Source: [security-hardening.md:33](../security/security-hardening.md)
 
 ---
 
@@ -355,7 +355,7 @@ Full isolation for autonomous Claude Code sessions:
 └──────────────────────────────────────────────────────────┘
 ```
 
-→ Source: [sandbox-isolation.md:87](./sandbox-isolation.md)
+→ Source: [sandbox-isolation.md:87](../security/sandbox-isolation.md)
 
 ---
 
@@ -474,7 +474,7 @@ Starting Claude Code?
 │   └─ NO → Turnkey, adjust as you go
 ```
 
-→ Source: [adoption-approaches.md:51](./adoption-approaches.md)
+→ Source: [adoption-approaches.md:51](../roles/adoption-approaches.md)
 
 ---
 
@@ -522,7 +522,7 @@ Using Perplexity for research, then Claude Code for implementation:
 └─────────────────────────────────────────────────────────┘
 ```
 
-→ Source: [ai-ecosystem.md:155](./ai-ecosystem.md)
+→ Source: [ai-ecosystem.md:155](../ecosystem/ai-ecosystem.md)
 
 ---
 
@@ -677,7 +677,7 @@ Systematic framework for learning with AI without losing your edge:
   If APPLY fails  → go back to VERIFY (you memorized, didn't understand)
 ```
 
-> Source: [learning-with-ai.md:208](./learning-with-ai.md)
+> Source: [learning-with-ai.md:208](../roles/learning-with-ai.md)
 
 ---
 
@@ -721,7 +721,7 @@ The full security document (security-hardening.md) organized as 3 defense layers
   └─────────────────────────────────────────────────────────────┘
 ```
 
-> Source: [security-hardening.md:24/205/345](./security-hardening.md)
+> Source: [security-hardening.md:24/205/345](../security/security-hardening.md)
 
 ---
 
@@ -763,7 +763,7 @@ Emergency response when a secret (API key, token, password) is exposed:
   └─────────────────────────────────────────────────────────┘
 ```
 
-> Source: [security-hardening.md:347](./security-hardening.md)
+> Source: [security-hardening.md:347](../security/security-hardening.md)
 
 ---
 

@@ -89,7 +89,7 @@ The struggle isn't optional. It's where learning happens.
 
 Term coined by [Andrej Karpathy](https://x.com/karpathy/status/1886192184808149383) (Feb 2025, Collins Word of the Year 2025): coding by "fully giving in to the vibes" without understanding the generated code.
 
-> **Related**: For team and OSS contexts, see [AI Traceability](./ai-traceability.md) for disclosure policies (LLVM, Ghostty, Fedora) and attribution tools.
+> **Related**: For team and OSS contexts, see [AI Traceability](../ops/ai-traceability.md) for disclosure policies (LLVM, Ghostty, Fedora) and attribution tools.
 
 **Symptoms:**
 - Accept All without reading diffs
@@ -1075,7 +1075,7 @@ Sources for [§3 The Reality of AI Productivity](#the-reality-of-ai-productivity
 - **ThoughtWorks Technology Radar** — AI-assisted development maturity model
 - **Martin Fowler on AI Pair Programming** — Patterns for effective human-AI collaboration
 - **OCTO Technology: Le développement à l'ère des agents IA** — [blog.octo.com](https://blog.octo.com/le-developpement-logiciel-a-l-ere-des-agents-ia) — Organizational perspective on AI-augmented development: pairs as minimal team unit (bus factor), bottleneck shifts from technical to functional requirements, junior developer integration via pair programming and deliberate practice. Managerial focus — useful context for team leads.
-- **Matteo Collina: The Human in the Loop** — [adventures.nodeland.dev](https://adventures.nodeland.dev/archive/the-human-in-the-loop/) — Node.js TSC Chair on the bottleneck shift from coding to reviewing. Response to Arnaldi's "Death of Software Development." Key thesis: AI amplifies productivity, but judgment and accountability remain human responsibilities. Quote: "The human in the loop isn't a limitation. It's the point." See [detailed analysis](./ai-ecosystem.md#matteo-collina-nodejs-tsc-chair).
+- **Matteo Collina: The Human in the Loop** — [adventures.nodeland.dev](https://adventures.nodeland.dev/archive/the-human-in-the-loop/) — Node.js TSC Chair on the bottleneck shift from coding to reviewing. Response to Arnaldi's "Death of Software Development." Key thesis: AI amplifies productivity, but judgment and accountability remain human responsibilities. Quote: "The human in the loop isn't a limitation. It's the point." See [detailed analysis](../ecosystem/ai-ecosystem.md#matteo-collina-nodejs-tsc-chair).
 
 ### Educational Frameworks
 
@@ -1085,7 +1085,7 @@ Sources for [§3 The Reality of AI Productivity](#the-reality-of-ai-productivity
 
 ### Methodology References
 
-See [methodologies.md](./methodologies.md) for:
+See [methodologies.md](../core/methodologies.md) for:
 - TDD with AI assistance
 - Spec-Driven Development
 - Eval-Driven Development for AI outputs
@@ -1105,7 +1105,7 @@ Practitioner reports from real-world usage provide empirical validation of theor
 ### In This Guide
 
 - [AI Roles & Career Paths](./ai-roles.md) — Map of emerging AI roles (Prompt Engineer → Harness Engineer) with career matrix and salary benchmarks
-- [Methodologies: TDD with Claude](./methodologies.md#tier-5-implementation) — Write tests first, then implement
+- [Methodologies: TDD with Claude](../core/methodologies.md#tier-5-implementation) — Write tests first, then implement
 - [Workflows: Spec-First](./workflows/spec-first.md) — Understand requirements before code
 - [Workflows: Plan-Driven](./workflows/plan-driven.md) — Use /plan mode for complex work
 - [Ultimate Guide: Mental Models](./ultimate-guide.md#mental-model) — How to think about Claude interactions

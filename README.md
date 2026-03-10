@@ -9,7 +9,7 @@
   <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Mar_9,_2026_·_v3.32.2-brightgreen?style=for-the-badge" alt="Last Update"/></a>
   <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-271_questions-orange?style=for-the-badge" alt="Quiz"/></a>
   <a href="./examples/"><img src="https://img.shields.io/badge/Templates-222-green?style=for-the-badge" alt="Templates"/></a>
-  <a href="./guide/security-hardening.md"><img src="https://img.shields.io/badge/🛡️_Threat_DB-15_vulnerabilities_·_655_malicious_skills-red?style=for-the-badge" alt="Threat Database"/></a>
+  <a href="./guide/security/security-hardening.md"><img src="https://img.shields.io/badge/🛡️_Threat_DB-15_vulnerabilities_·_655_malicious_skills-red?style=for-the-badge" alt="Threat Database"/></a>
   <a href="./mcp-server/"><img src="https://img.shields.io/badge/MCP_Server-npx_ready-blueviolet?style=for-the-badge" alt="MCP Server"/></a>
 </p>
 
@@ -36,7 +36,7 @@
 | 🎨 **Product Manager / Designer** | [Vibe coding, working with AI-assisted dev teams →](docs/for-product-managers.md) |
 | ✍️ **Writer / Ops / Manager** | [Claude Cowork Guide (separate repo) →](https://github.com/FlorianBruniaux/claude-cowork-guide) |
 | 👨‍💻 **Developer (all levels)** | You're in the right place — read on ↓ |
-| 🧭 **Career pivot / new AI role** | [AI Roles & Career Paths →](guide/ai-roles.md) |
+| 🧭 **Career pivot / new AI role** | [AI Roles & Career Paths →](guide/roles/ai-roles.md) |
 
 ---
 
@@ -218,7 +218,7 @@ graph LR
 **Outcome**: Design your own workflows instead of copy-pasting blindly.
 
 **We teach how Claude Code works and why patterns matter**:
-- [Architecture](./guide/architecture.md) — Internal mechanics (context flow, tool orchestration, memory management)
+- [Architecture](./guide/core/architecture.md) — Internal mechanics (context flow, tool orchestration, memory management)
 - [Trade-offs](./guide/ultimate-guide.md#when-to-use-what) — Decision frameworks for agents vs skills vs commands
 - [Configuration Decision Guide](./guide/ultimate-guide.md#27-configuration-decision-guide) — Unified "which mechanism for what?" map across all 7 config layers
 - [Pitfalls](./guide/ultimate-guide.md#common-mistakes) — Common failure modes + prevention strategies
@@ -253,7 +253,7 @@ graph LR
 - **655 malicious skills catalogued** — Unicode injection, hidden instructions, auto-execute patterns
 - **Production hardening workflows** — MCP vetting, injection defense, audit automation
 
-[Threat Database →](./machine-readable/threat-db.yaml) | [Security Guide →](./guide/security-hardening.md)
+[Threat Database →](./machine-readable/threat-db.yaml) | [Security Guide →](./guide/security/security-hardening.md)
 
 **What this means for you**: Vet MCP servers before trusting them, detect attack patterns in configs, comply with security audits.
 
@@ -294,10 +294,10 @@ graph LR
 **Outcome**: Maintain code quality while working with AI.
 
 Complete guides with rationale and examples:
-- [TDD](./guide/methodologies.md#1-tdd-test-driven-development-with-claude) — Test-Driven Development (Red-Green-Refactor with AI)
-- [SDD](./guide/methodologies.md#2-sdd-specification-driven-development) — Specification-Driven Development (Design before code)
-- [BDD](./guide/methodologies.md#3-bdd-behavior-driven-development) — Behavior-Driven Development (User stories → tests)
-- [GSD](./guide/methodologies.md#gsd-get-shit-done) — Get Shit Done (Pragmatic delivery)
+- [TDD](./guide/core/methodologies.md#1-tdd-test-driven-development-with-claude) — Test-Driven Development (Red-Green-Refactor with AI)
+- [SDD](./guide/core/methodologies.md#2-sdd-specification-driven-development) — Specification-Driven Development (Design before code)
+- [BDD](./guide/core/methodologies.md#3-bdd-behavior-driven-development) — Behavior-Driven Development (User stories → tests)
+- [GSD](./guide/core/methodologies.md#gsd-get-shit-done) — Get Shit Done (Pragmatic delivery)
 
 **What this means for you**: Choose the right workflow for your team culture, integrate AI into existing processes, avoid technical debt from AI over-reliance.
 
@@ -342,7 +342,7 @@ Systematic assessment of external resources (5-point scoring):
 2. [Essential Commands](./guide/ultimate-guide.md#13-essential-commands) — The 7 commands
 3. [Context Management](./guide/ultimate-guide.md#22-context-management) — Critical concept
 4. [Memory Files](./guide/ultimate-guide.md#31-memory-files-claudemd) — Your first CLAUDE.md
-5. [Learning with AI](./guide/learning-with-ai.md) — Use AI without becoming dependent ⭐
+5. [Learning with AI](./guide/roles/learning-with-ai.md) — Use AI without becoming dependent ⭐
 6. [TDD Workflow](./guide/workflows/tdd-with-claude.md) — Test-first development
 7. [Cheat Sheet](./guide/cheatsheet.md) — Print this
 
@@ -353,7 +353,7 @@ Systematic assessment of external resources (5-point scoring):
 
 1. [Core Concepts](./guide/ultimate-guide.md#2-core-concepts) — Mental model
 2. [Plan Mode](./guide/ultimate-guide.md#23-plan-mode) — Safe exploration
-3. [Methodologies](./guide/methodologies.md) — TDD, SDD, BDD reference
+3. [Methodologies](./guide/core/methodologies.md) — TDD, SDD, BDD reference
 4. [Agents](./guide/ultimate-guide.md#4-agents) — Custom AI personas
 5. [Hooks](./guide/ultimate-guide.md#7-hooks) — Event automation
 6. [CI/CD Integration](./guide/ultimate-guide.md#93-cicd-integration) — Pipelines
@@ -364,11 +364,11 @@ Systematic assessment of external resources (5-point scoring):
 <summary><strong>Power User</strong> — Comprehensive path (8 steps)</summary>
 
 1. [Complete Guide](./guide/ultimate-guide.md) — End-to-end
-2. [Architecture](./guide/architecture.md) — How Claude Code works
-3. [Security Hardening](./guide/security-hardening.md) — MCP vetting, injection defense
+2. [Architecture](./guide/core/architecture.md) — How Claude Code works
+3. [Security Hardening](./guide/security/security-hardening.md) — MCP vetting, injection defense
 4. [MCP Servers](./guide/ultimate-guide.md#8-mcp-servers) — Extended capabilities
 5. [Trinity Pattern](./guide/ultimate-guide.md#91-the-trinity) — Advanced workflows
-6. [Observability](./guide/observability.md) — Monitor costs & sessions
+6. [Observability](./guide/ops/observability.md) — Monitor costs & sessions
 7. [Agent Teams](./guide/workflows/agent-teams.md) — Multi-agent coordination (Opus 4.6 experimental)
 8. [Examples](./examples/) — Production templates
 
@@ -380,18 +380,18 @@ Systematic assessment of external resources (5-point scoring):
 **Product Manager** (5 steps):
 1. [What's Inside](#-whats-inside) — Scope overview
 2. [Golden Rules](#-golden-rules) — Key principles
-3. [Data Privacy](./guide/data-privacy.md) — Retention & compliance
-4. [Adoption Approaches](./guide/adoption-approaches.md) — Team strategies
+3. [Data Privacy](./guide/security/data-privacy.md) — Retention & compliance
+4. [Adoption Approaches](./guide/roles/adoption-approaches.md) — Team strategies
 5. [PM FAQ](./guide/ultimate-guide.md#can-product-managers-use-claude-code) — Code-adjacent vs non-coding PMs
 
 **Note**: Non-coding PMs should consider [Claude Cowork Guide](https://github.com/FlorianBruniaux/claude-cowork-guide) instead.
 
 **DevOps / SRE** (5 steps):
-1. [DevOps & SRE Guide](./guide/devops-sre.md) — FIRE framework
-2. [K8s Troubleshooting](./guide/devops-sre.md#kubernetes-troubleshooting) — Symptom-based prompts
-3. [Incident Response](./guide/devops-sre.md#pattern-incident-response) — Workflows
-4. [IaC Patterns](./guide/devops-sre.md#pattern-infrastructure-as-code) — Terraform, Ansible
-5. [Guardrails](./guide/devops-sre.md#guardrails--adoption) — Security boundaries
+1. [DevOps & SRE Guide](./guide/ops/devops-sre.md) — FIRE framework
+2. [K8s Troubleshooting](./guide/ops/devops-sre.md#kubernetes-troubleshooting) — Symptom-based prompts
+3. [Incident Response](./guide/ops/devops-sre.md#pattern-incident-response) — Workflows
+4. [IaC Patterns](./guide/ops/devops-sre.md#pattern-infrastructure-as-code) — Terraform, Ansible
+5. [Guardrails](./guide/ops/devops-sre.md#guardrails--adoption) — Security boundaries
 
 **Product Designer** (5 steps):
 1. [Working with Images](./guide/ultimate-guide.md#24-working-with-images) — Image analysis
@@ -610,7 +610,7 @@ claude plugin install session-summary@florian-claude-tools
 
 **Community**: 🇫🇷 [Dev With AI](https://www.devw.ai/) — 1500+ devs on Slack, meetups in Paris, Bordeaux, Lyon
 
-→ **[AI Ecosystem Guide](./guide/ai-ecosystem.md)** — Complete integration patterns with complementary AI tools
+→ **[AI Ecosystem Guide](./guide/ecosystem/ai-ecosystem.md)** — Complete integration patterns with complementary AI tools
 
 ---
 
@@ -646,10 +646,10 @@ claude plugin install session-summary@florian-claude-tools
 
 | Resource | Purpose | Time |
 |----------|---------|------|
-| **[Security Hardening Guide](./guide/security-hardening.md)** | MCP vetting, injection defense, audit workflow | 25 min |
-| **[Data Privacy Guide](./guide/data-privacy.md)** | Retention policies (5yr → 30d → 0), GDPR compliance | 10 min |
-| **[Sandbox Isolation](./guide/sandbox-isolation.md)** | Docker sandboxes for untrusted MCP servers | 10 min |
-| **[Production Safety](./guide/production-safety.md)** | Infrastructure locks, port stability, DB safety | 20 min |
+| **[Security Hardening Guide](./guide/security/security-hardening.md)** | MCP vetting, injection defense, audit workflow | 25 min |
+| **[Data Privacy Guide](./guide/security/data-privacy.md)** | Retention policies (5yr → 30d → 0), GDPR compliance | 10 min |
+| **[Sandbox Isolation](./guide/security/sandbox-isolation.md)** | Docker sandboxes for untrusted MCP servers | 10 min |
+| **[Production Safety](./guide/security/production-safety.md)** | Infrastructure locks, port stability, DB safety | 20 min |
 
 ### Security Commands
 
@@ -683,7 +683,7 @@ claude plugin install session-summary@florian-claude-tools
 4. **Testing**: Isolated Docker sandbox first, monitor tool calls
 5. **Monitoring**: Session logs, error tracking, regular re-audits
 
-**[Full MCP Security Workflow →](./guide/security-hardening.md#vetting-mcp-servers)**
+**[Full MCP Security Workflow →](./guide/security/security-hardening.md#vetting-mcp-servers)**
 
 ---
 
@@ -731,20 +731,20 @@ Use this guide critically. Experiment. Share what works for you.
 |------|---------|------|
 | **[Ultimate Guide](./guide/ultimate-guide.md)** | Complete reference (20K+ lines), 10 sections | 30-40h (full) • Most consult sections |
 | **[Cheat Sheet](./guide/cheatsheet.md)** | 1-page printable reference | 5 min |
-| **[Visual Reference](./guide/visual-reference.md)** | 20 ASCII diagrams for key concepts | 5 min |
-| **[Architecture](./guide/architecture.md)** | How Claude Code works internally | 25 min |
-| **[Methodologies](./guide/methodologies.md)** | TDD, SDD, BDD reference | 20 min |
+| **[Visual Reference](./guide/core/visual-reference.md)** | 20 ASCII diagrams for key concepts | 5 min |
+| **[Architecture](./guide/core/architecture.md)** | How Claude Code works internally | 25 min |
+| **[Methodologies](./guide/core/methodologies.md)** | TDD, SDD, BDD reference | 20 min |
 | **[Workflows](./guide/workflows/)** | Practical guides (TDD, Plan-Driven, Task Management) | 30 min |
-| **[Data Privacy](./guide/data-privacy.md)** | Retention & compliance | 10 min |
-| **[Security Hardening](./guide/security-hardening.md)** | MCP vetting, injection defense | 25 min |
-| **[Sandbox Isolation](./guide/sandbox-isolation.md)** | Docker Sandboxes, cloud alternatives, safe autonomy | 10 min |
-| **[Production Safety](./guide/production-safety.md)** | Port stability, DB safety, infrastructure lock | 20 min |
-| **[DevOps & SRE](./guide/devops-sre.md)** | FIRE framework, K8s troubleshooting, incident response | 30 min |
-| **[AI Ecosystem](./guide/ai-ecosystem.md)** | Complementary AI tools & integration patterns | 20 min |
-| **[AI Traceability](./guide/ai-traceability.md)** | Code attribution & provenance tracking | 15 min |
-| **[Search Tools Cheatsheet](./guide/search-tools-cheatsheet.md)** | Grep, Serena, ast-grep, grepai comparison | 5 min |
-| **[Learning with AI](./guide/learning-with-ai.md)** | Use AI without becoming dependent | 15 min |
-| **[Claude Code Releases](./guide/claude-code-releases.md)** | Official release history | 10 min |
+| **[Data Privacy](./guide/security/data-privacy.md)** | Retention & compliance | 10 min |
+| **[Security Hardening](./guide/security/security-hardening.md)** | MCP vetting, injection defense | 25 min |
+| **[Sandbox Isolation](./guide/security/sandbox-isolation.md)** | Docker Sandboxes, cloud alternatives, safe autonomy | 10 min |
+| **[Production Safety](./guide/security/production-safety.md)** | Port stability, DB safety, infrastructure lock | 20 min |
+| **[DevOps & SRE](./guide/ops/devops-sre.md)** | FIRE framework, K8s troubleshooting, incident response | 30 min |
+| **[AI Ecosystem](./guide/ecosystem/ai-ecosystem.md)** | Complementary AI tools & integration patterns | 20 min |
+| **[AI Traceability](./guide/ops/ai-traceability.md)** | Code attribution & provenance tracking | 15 min |
+| **[Search Tools Cheatsheet](./guide/cheatsheet.md)** | Grep, Serena, ast-grep, grepai comparison | 5 min |
+| **[Learning with AI](./guide/roles/learning-with-ai.md)** | Use AI without becoming dependent | 15 min |
+| **[Claude Code Releases](./guide/core/claude-code-releases.md)** | Official release history | 10 min |
 
 <details>
 <summary><strong>Examples Library</strong> (176 templates)</summary>
@@ -830,7 +830,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ### This Guide
 - **[CHANGELOG](./CHANGELOG.md)** — Guide version history (what's new in each release)
-- [Claude Code Releases](./guide/claude-code-releases.md) — Official Claude Code release tracking
+- [Claude Code Releases](./guide/core/claude-code-releases.md) — Official Claude Code release tracking
 
 ### Official Resources
 - [Claude Code CLI](https://code.claude.com) — Official website

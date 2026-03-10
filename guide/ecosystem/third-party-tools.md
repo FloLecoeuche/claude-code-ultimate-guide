@@ -30,7 +30,7 @@ This page catalogs **community-built tools that extend Claude Code**. Each tool 
 
 **What this page is NOT**:
 - Not a list of AI tools that complement Claude Code (see [AI Ecosystem](./ai-ecosystem.md))
-- Not DIY monitoring scripts (see [Observability](./observability.md))
+- Not DIY monitoring scripts (see [Observability](../ops/observability.md))
 - Not MCP server recommendations (see [MCP Servers Ecosystem](./mcp-servers-ecosystem.md))
 
 ---
@@ -62,7 +62,7 @@ The most mature cost tracking tool for Claude Code. Parses local session data to
 **Limitations**: Relies on local JSONL parsing; cost estimates may differ from official Anthropic billing. No team aggregation without manual log merging.
 
 > **Cross-ref**: The main guide covers basic ccusage commands at [ultimate-guide.md Section 2.4](./ultimate-guide.md) (cost monitoring).
-> For DIY cost tracking with hooks, see [Observability](./observability.md).
+> For DIY cost tracking with hooks, see [Observability](../ops/observability.md).
 
 ---
 
@@ -189,7 +189,7 @@ A web-based UI for browsing and reading Claude Code conversation history (JSONL 
 
 **Limitations**: Read-only (cannot edit or resume sessions). No cost data. Requires existing `~/.claude/projects/` history.
 
-> **Cross-ref**: For session search from the CLI, see [session-search.sh](../examples/scripts/session-search.sh) in [Observability](./observability.md).
+> **Cross-ref**: For session search from the CLI, see [session-search.sh](../examples/scripts/session-search.sh) in [Observability](../ops/observability.md).
 
 ---
 
@@ -274,7 +274,7 @@ ls .git/hooks/                    # Verify no conflict with existing hooks
 
 Stop criteria: checkpoint > 10 MB/session, push overhead > 5s, or hook conflicts.
 
-> **Cross-ref**: Full Entire workflow with examples at [AI Traceability Guide](./ai-traceability.md#51-entire-cli). For compliance use cases, see [Security Hardening](./security-hardening.md).
+> **Cross-ref**: Full Entire workflow with examples at [AI Traceability Guide](../ops/ai-traceability.md#51-entire-cli). For compliance use cases, see [Security Hardening](../security/security-hardening.md).
 
 ---
 
@@ -585,8 +585,8 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 
 ## Related Resources
 
-- [Observability](./observability.md) - DIY session monitoring, logging hooks, cost tracking scripts
+- [Observability](../ops/observability.md) - DIY session monitoring, logging hooks, cost tracking scripts
 - [AI Ecosystem](./ai-ecosystem.md) - Complementary AI tools (Perplexity, Gemini, NotebookLM)
 - [MCP Servers Ecosystem](./mcp-servers-ecosystem.md) - Validated community MCP servers
-- [Architecture](./architecture.md) - How Claude Code works internally
+- [Architecture](../core/architecture.md) - How Claude Code works internally
 - [Ultimate Guide Section 8](./ultimate-guide.md) - Plugin system and marketplaces

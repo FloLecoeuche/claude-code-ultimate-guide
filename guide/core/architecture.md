@@ -369,7 +369,7 @@ Claude system prompts (~5-15K tokens) are **publicly published** by Anthropic as
 
 **Core Components**:
 - **Tool definitions**: Bash, Read, Edit, Write, Grep, Glob, Task, TodoWrite
-- **Safety instructions**: Content policies, refusal patterns (see [Security Hardening](./security-hardening.md))
+- **Safety instructions**: Content policies, refusal patterns (see [Security Hardening](../security/security-hardening.md))
 - **Behavioral guidelines**: Task-first approach, MVP-first, no over-engineering
 - **Context instructions**: How to gather and use project context
 
@@ -686,7 +686,7 @@ Claude Code includes built-in **native sandboxing** using OS-level primitives fo
 - ✅ **Native Sandbox**: Daily development, trusted team, lightweight setup
 - ✅ **Docker Sandboxes**: Untrusted code, kernel exploit protection, Docker-in-Docker needed
 
-**Deep dive**: See [Native Sandboxing Guide](./sandbox-native.md) for complete technical reference, configuration examples, and troubleshooting.
+**Deep dive**: See [Native Sandboxing Guide](../security/sandbox-native.md) for complete technical reference, configuration examples, and troubleshooting.
 
 ### Hooks System
 

@@ -93,7 +93,7 @@ Claude Code
 
 </details>
 
-> **Source**: [MCP Ecosystem](../mcp-servers-ecosystem.md) — Full guide
+> **Source**: [MCP Ecosystem](../ecosystem/mcp-servers-ecosystem.md) — Full guide
 
 ---
 
@@ -162,7 +162,7 @@ Use result       ←  JSON-RPC Response  ←  Return result
 
 </details>
 
-> **Source**: [Architecture: MCP](../architecture.md#mcp-architecture) — Line ~795
+> **Source**: [Architecture: MCP](../core/architecture.md#mcp-architecture) — Line ~795
 
 ---
 
@@ -209,7 +209,7 @@ DEFENSE: Read MCP source before installing. Especially check tool descriptions.
 
 </details>
 
-> **Source**: [Security: MCP Threats](../security-hardening.md#mcp-threats) — Line ~33
+> **Source**: [Security: MCP Threats](../security/security-hardening.md#mcp-threats) — Line ~33
 
 ---
 
