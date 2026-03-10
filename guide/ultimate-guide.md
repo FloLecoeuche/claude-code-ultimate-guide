@@ -16,7 +16,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Last updated**: January 2026
 
-**Version**: 3.33.0
+**Version**: 3.33.1
 
 ---
 
@@ -5034,7 +5034,7 @@ The `.claude/` folder is your project's Claude Code directory for memory, settin
 | Personal preferences | `CLAUDE.md` | ❌ Gitignore |
 | Personal permissions | `settings.local.json` | ❌ Gitignore |
 
-### 3.33.0 Version Control & Backup
+### 3.33.1 Version Control & Backup
 
 **Problem**: Without version control, losing your Claude Code configuration means hours of manual reconfiguration across agents, skills, hooks, and MCP servers.
 
@@ -15977,10 +15977,10 @@ cargo install rtk
 curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/main/install.sh | bash
 
 # Verify installation
-rtk --version  # v0.16.0+
+rtk --version  # v0.28.0+
 ```
 
-**Proven Token Savings (Benchmarked on v0.2.0):**
+**Proven Token Savings (Benchmarked on real output):**
 
 | Command | Baseline | RTK | Reduction |
 |---------|----------|-----|-----------|
@@ -15993,7 +15993,7 @@ rtk --version  # v0.16.0+
 
 **Average: 60-90% token reduction depending on commands**
 
-**Key Features (v0.16.0):**
+**Key Features (v0.28.0):**
 
 ```bash
 # Git operations
@@ -16008,23 +16008,44 @@ rtk prisma migrate status # Migration status filtered
 
 # Python
 rtk python pytest        # Python test output condensed
+rtk mypy                 # Type errors grouped by file
 
 # Go
 rtk go test              # Go test results filtered
 
 # Rust
 rtk cargo test           # Cargo test output condensed
+rtk cargo nextest        # cargo-nextest failures-only output
 rtk cargo build          # Build output filtered
 rtk cargo clippy         # Lints grouped by severity
 
-# Project Setup & Learning
-rtk init                 # Initialize RTK in a project (hook-first install)
+# Cloud & Database
+rtk aws                  # AWS CLI output filtered
+rtk psql                 # psql query results condensed
+rtk docker               # Docker output condensed
+rtk docker compose       # docker compose support
+
+# Version control (extra)
+rtk gt                   # Graphite CLI support
+
+# File & Text Utilities
 rtk tree                 # Project structure condensed
+rtk wc                   # Compact word/line/byte counts
+rtk read file.ts         # File contents condensed
+
+# Project Setup & Learning
+rtk init                 # Initialize RTK with hook auto-install
+rtk init --global        # Install hook globally (settings.json auto-patch)
 rtk learn                # Interactive RTK learning
 
 # Analytics
 rtk gain                 # Token savings dashboard (SQLite tracking)
+rtk gain -p              # Per-project token savings breakdown
 rtk discover             # Find missed optimization opportunities
+
+# Hook & Config Management
+rtk rewrite <cmd>        # Single source of truth for hook rewrites
+rtk verify               # Validate TOML filter rules
 ```
 
 **Real-World Impact:**
@@ -16036,11 +16057,30 @@ rtk discover             # Find missed optimization opportunities
 - Savings: 109K tokens (72.6% reduction)
 ```
 
+**TOML Filter DSL (v0.28.0 — add filters without writing Rust):**
+
+RTK now supports a declarative filter engine via TOML config. You can add custom output filters for any command without touching Rust code.
+
+```toml
+# .rtk/filters.toml (project-local) or ~/.config/rtk/filters.toml (user-global)
+
+[[filters]]
+match_command = "my-build-tool"
+strip_lines_matching = "^(DEBUG|TRACE|INFO):"
+max_lines = 50
+```
+
+Lookup chain: `.rtk/filters.toml` (project) → `~/.config/rtk/filters.toml` (global) → 33 built-in filters (brew, poetry, dotnet, swift, uv, tofu, ansible, helm, etc.)
+
+Available primitives: `strip_ansi`, `replace`, `match_output`, `strip/keep_lines_matching`, `truncate_lines_at`, `head/tail_lines`, `max_lines`, `on_empty`
+
+Debug: `RTK_NO_TOML=1` bypasses all TOML filters. `RTK_TOML_DEBUG=1` shows which filter fires.
+
 **Integration Strategies:**
 
 1. **Hook-first install** (recommended):
    ```bash
-   rtk init  # Sets up PreToolUse hook automatically
+   rtk init --global  # Sets up PreToolUse hook + patches settings.json automatically
    ```
 
 2. **CLAUDE.md instruction** (manual wrapper):
@@ -16062,6 +16102,22 @@ rtk discover             # Find missed optimization opportunities
    - Template: `examples/hooks/bash/rtk-auto-wrapper.sh`
    - PreToolUse hook intercepts bash commands
    - Applies RTK wrapper when beneficial
+
+**Configuration Options:**
+
+```toml
+# ~/.config/rtk/config.toml
+exclude_commands = ["my-interactive-tool", "fzf"]  # Never rewrite these
+```
+
+**Migration Note (v0.25.0+):**
+
+After upgrading from v0.24.0 or earlier, run `rtk init --global` to install the new thin-delegator hook. The old hook still works, but won't pick up new command mappings automatically.
+
+```bash
+cargo install rtk          # Upgrade binary
+rtk init --global          # Replace hook with thin delegator
+```
 
 **Recommendation:**
 
@@ -22810,4 +22866,4 @@ We'll evaluate and add it to this section if it meets quality criteria.
 
 **Contributions**: Issues and PRs welcome.
 
-**Last updated**: January 2026 | **Version**: 3.33.0
+**Last updated**: January 2026 | **Version**: 3.33.1

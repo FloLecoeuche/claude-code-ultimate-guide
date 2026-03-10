@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [3.33.1] - 2026-03-10
+
+### Updated
+
+- **RTK documentation updated to v0.28.0** — Synced RTK coverage across `guide/ultimate-guide.md`, `guide/ecosystem/third-party-tools.md`, `machine-readable/reference.yaml`, and global `~/.claude/{CLAUDE.md,RTK.md}`. New content: TOML Filter DSL (declarative filters without Rust, 33+ built-in filters, `.rtk/filters.toml` project-local and `~/.config/rtk/filters.toml` global lookup chain); `rtk rewrite` command (v0.25.0 single source of truth for hook rewrites, migration note: `rtk init --global` required after upgrade); new modules — `rtk docker compose`, `rtk mypy`, `rtk aws`, `rtk psql`, `rtk cargo nextest`, `rtk gt` (Graphite CLI), `rtk wc`; `rtk gain -p` per-project savings; `rtk init --global` with settings.json auto-patch; `exclude_commands` config; SHA-256 hook integrity verification; hook outdated warning.
+
 ## [3.33.0] - 2026-03-10
 
 ### Fixed
