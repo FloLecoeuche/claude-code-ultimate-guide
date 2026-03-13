@@ -71,6 +71,24 @@ Scale CLAUDE.md across a multi-developer, multi-tool team with profile-based mod
 
 **When to use**: Team 5+ devs, multiple AI tools (Claude Code + Cursor/Windsurf), mixed OS
 
+### [Changelog Fragments](./changelog-fragments.md) ⭐ NEW
+
+**Enforce per-PR documentation with a 3-layer system: CLAUDE.md rule + UserPromptSubmit hook + CI gate**
+
+Eliminates merge conflicts on `CHANGELOG.md`, captures context at implementation time, and ensures DB migrations are never silently deployed. Includes a reusable `UserPromptSubmit` hook pattern for enforcing any mandatory workflow step.
+
+**Key Topics**:
+- CLAUDE.md workflow rule for autonomous fragment creation
+- `UserPromptSubmit` hook with 3-tier priority (enforcement, discovery, contextual)
+- Conditional suggestion pattern: "if PR-intent without fragment-mention"
+- CI enforcement with independent migration check job
+
+### [Cognitive Mode Switching](./gstack-workflow.md) ⭐ NEW
+
+Switch between specialist roles across your ship cycle: strategic product gate, architecture review, paranoid code review, automated release, native browser QA, and retrospective.
+
+**When to use**: Ship cycles where you want explicit separation between product direction, engineering rigor, review, and release — rather than one generic assistant handling all phases
+
 ---
 
 ## 🎨 Design & Content
@@ -171,6 +189,7 @@ Multi-session task tracking with TodoWrite, tasks API, and context persistence a
 | **Code quality** | [Iterative Refinement](./iterative-refinement.md) |
 | **New project from template** | [Skeleton Projects](./skeleton-projects.md) |
 | **Team AI instructions** | [Team AI Instructions](./team-ai-instructions.md) |
+| **Enforce mandatory workflow steps** | [Changelog Fragments](./changelog-fragments.md) |
 | **Documentation** | [PDF Generation](./pdf-generation.md) |
 | **Social previews** | [OG Image Generation](./og-image-generation.md) |
 | **Conference talk from raw material** | [Talk Preparation Pipeline](./talk-pipeline.md) |
@@ -181,6 +200,8 @@ Multi-session task tracking with TodoWrite, tasks API, and context persistence a
 | **Hook-driven automation** | [Event-Driven Agents](./event-driven-agents.md) |
 | **Full plan workflow** | [Plan Pipeline](./plan-pipeline.md) |
 | **Multi-session tracking** | [Task Management](./task-management.md) |
+| **Strategic gate before coding** | [Cognitive Mode Switching](./gstack-workflow.md) |
+| **Non-MCP browser automation** | [Cognitive Mode Switching](./gstack-workflow.md) |
 
 ---
 

@@ -1,12 +1,12 @@
 ---
 title: "Third-Party Tools for Claude Code"
-description: "Community tools for token tracking, session management, configuration, and alternative UIs"
+description: "Community tools for token tracking, session management, configuration, hook utilities, and alternative UIs"
 tags: [reference, integration, plugin]
 ---
 
 # Third-Party Tools for Claude Code
 
-> Community tools for token tracking, session management, configuration, and alternative UIs.
+> Community tools for token tracking, session management, configuration, hook utilities, and alternative UIs.
 >
 > **Last verified**: March 2026
 
@@ -16,11 +16,12 @@ tags: [reference, integration, plugin]
 2. [Token & Cost Tracking](#token--cost-tracking)
 3. [Session Management](#session-management)
 4. [Configuration Management](#configuration-management)
-5. [Alternative UIs](#alternative-uis)
-6. [Multi-Agent Orchestration](#multi-agent-orchestration)
-7. [Plugin Ecosystem](#plugin-ecosystem)
-8. [Known Gaps](#known-gaps)
-9. [Recommendations by Persona](#recommendations-by-persona)
+5. [Hook Utilities](#hook-utilities)
+6. [Alternative UIs](#alternative-uis)
+7. [Multi-Agent Orchestration](#multi-agent-orchestration)
+8. [Plugin Ecosystem](#plugin-ecosystem)
+9. [Known Gaps](#known-gaps)
+10. [Recommendations by Persona](#recommendations-by-persona)
 
 ---
 
@@ -327,6 +328,85 @@ A CLI that scaffolds pre-configured Claude Code setups with hooks, commands, sta
 
 ---
 
+## Hook Utilities
+
+Tools that extend Claude Code's hook system with additional logic, conditional execution, or automation patterns. For DIY hook examples, see [the hooks section in the ultimate guide](../ultimate-guide.md).
+
+### gitdiff-watcher
+
+A Stop hook utility that enforces quality gates before Claude hands back control. Runs shell commands (build, tests, linting) only when relevant files have changed, making CLAUDE.md quality rules deterministic.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: fcamblor/gitdiff-watcher](https://github.com/fcamblor/gitdiff-watcher) |
+| **Install** | `npx @fcamblor/gitdiff-watcher@0.1.0` (no global install needed) |
+| **Language** | Node.js |
+| **Version** | 0.1.0 — work in progress, APIs may change |
+| **Author** | Florian Camblor |
+
+**The problem it solves**: CLAUDE.md rules like "tests must pass before handoff" are non-deterministic. As context grows, these rules compete with recent tool outputs for the model's attention and can be deprioritized — so Claude sometimes returns control with broken code even when the rule is explicit. A Stop hook runs outside the LLM context, making it structurally impossible to skip.
+
+**How it works**:
+
+1. Takes a glob pattern (`--on`) and one or more shell commands (`--exec`)
+2. On each Stop event, SHA-256 hashes all files matching the glob that appear in `git diff` (staged + unstaged)
+3. Compares against the previous snapshot stored in `.claude/gitdiff-watcher.state.local.json`
+4. If no relevant changes: exits 0 silently (no command runs)
+5. If changes detected: runs all `--exec` commands
+6. If any command fails (exit code 2): Claude receives the stderr and retries — the snapshot is NOT updated, so the check runs again next turn
+7. On full success: updates the snapshot
+
+**Example configuration** (`.claude/settings.json`):
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx @fcamblor/gitdiff-watcher@0.1.0 --on 'src/**/*.{ts,tsx}' --exec 'npm run build'",
+            "timeout": 300,
+            "statusMessage": "Checking TypeScript build..."
+          },
+          {
+            "type": "command",
+            "command": "npx @fcamblor/gitdiff-watcher@0.1.0 --on 'src/**/*.{ts,tsx}' --exec 'npm test -- --passWithNoTests'",
+            "timeout": 300,
+            "statusMessage": "Checking tests..."
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Multiple hooks run in parallel (Claude Code spawns one subagent per hook entry).
+
+**Key behaviors**:
+
+- **Conditional**: only fires when matching files changed — no wasted CI time on unrelated edits
+- **Retry-safe**: failed runs preserve the snapshot, so the same check runs on the next attempt
+- **Parallel**: multiple `--exec` commands within one hook entry run sequentially; use separate hook entries for parallel execution
+- **Silent on no-op**: exits 0 without output when no relevant changes are detected
+
+**Limitations**:
+
+- v0.1.0 — explicitly "work in progress", CLI options and state file format may change
+- Uses `git diff (staged + unstaged)` for file detection — files not tracked by git are not visible to the watcher
+- Retry loops: a misconfigured check that always fails will cause Claude to retry indefinitely; add a `--exec-timeout` and ensure your commands have correct exit codes
+- Each Stop hook failure starts a new Claude turn, consuming context — near the 200K limit, repeated failures accelerate context consumption
+
+**When to use gitdiff-watcher vs a native Stop hook**:
+
+The same quality gate can be written in ~20 lines of bash without gitdiff-watcher. Use gitdiff-watcher when you want the file-change conditional logic and state persistence without writing it yourself, or when you need parallel checks across a polyglot codebase (e.g., TypeScript build + Kotlin tests simultaneously).
+
+> **Cross-ref**: Stop hook mechanics at [ultimate-guide.md hooks section](../ultimate-guide.md). For PostToolUse build checks (fires after every file edit, not at handoff), see the hooks section example at line ~8262.
+
+---
+
 ## Alternative UIs
 
 ### Claude Chic
@@ -555,6 +635,9 @@ Claude Code's plugin system supports community-built extensions. For detailed do
 - **[claude-plugins.dev](https://claude-plugins.dev)** - 11,989 plugins, 63,065 skills indexed
 - **[claudemarketplaces.com](https://claudemarketplaces.com)** - Auto-scan GitHub for marketplace plugins
 - **[agentskills.io](https://agentskills.io)** - Open standard for agent skills (26+ platforms)
+
+**Notable skill packs**:
+- **[gstack](https://github.com/garrytan/gstack)** — 6-skill workflow suite covering the full ship cycle: strategic product gate (`/plan-ceo-review`), architecture review (`/plan-eng-review`), paranoid code review (`/review`), automated release (`/ship`), native browser QA (`/browse`), and retrospective (`/retro`). Created by Garry Tan (Y Combinator CEO). See [Cognitive Mode Switching](../workflows/gstack-workflow.md) for the workflow pattern and adoption guide.
 
 ---
 
