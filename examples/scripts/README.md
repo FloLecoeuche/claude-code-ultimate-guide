@@ -26,6 +26,7 @@ Utility scripts for Claude Code power users.
 | `rtk-benchmark.sh` | Benchmark RTK token savings vs raw commands |
 | `sync-claude-config.sh` | Sync Claude config files across machines |
 | `sonnetplan.sh` | Run Claude with Sonnet replacing Opus (cost optimization alias) |
+| `test-prompt-caching.ts` | Verify Anthropic prompt caching is active (no deps, fetch only) |
 
 ---
 
