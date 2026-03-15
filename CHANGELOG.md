@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Spring Break promotion note** (guide line ~2395): Documented Anthropic's March 13-27, 2026 promotion — 2x usage limits outside 5-11am PT (peak hours) and all weekends, bonus usage doesn't count against weekly limits, applies to Free/Pro/Max/Team. Includes CET timezone conversion for European users (2x from midnight-13h and 19h-24h France time). Source: Anthropic support article.
 - **ICM (Infinite Context Memory)**: New MCP memory server section after Kairn (~line 11365) — Rust single binary, zero deps, Homebrew install, dual architecture (episodic decay Memories + permanent knowledge graph Memoirs), 9 typed relation types, auto-extraction 3 layers, 14 editor clients. Score 3/5 — recommended as Rust-native alternative when Python dependency management is a friction point. Includes explicit license callout (Source-Available, free ≤20 people) and vendor-reported benchmark flags.
 - **Comparison matrix update**: Added ICM column to MCP memory stack matrix (Runtime + License rows added for all tools)
 

@@ -2394,6 +2394,10 @@ Monthly cost estimate: $50-$200 for 5-10 developers
 
 > **Note**: Anthropic's plans evolve frequently. Always verify current pricing and limits at [claude.com/pricing](https://claude.com/pricing).
 
+> **Spring Break Promotion (March 13-27, 2026)**: Anthropic is running a 2-week promotion with **2x usage limits outside peak hours**. Peak hours are 5-11am PT (8am-2pm ET). All other hours — including evenings, nights, early mornings — get doubled usage. Weekends are fully 2x all day. Bonus usage does **not** count against your weekly plan limits. Applies to Free, Pro, Max, and Team plans (Enterprise excluded). Source: [Anthropic support article](https://support.claude.com/en/articles/14063676-claude-march-2026-usage-promotion).
+>
+> **For European users**: 5-11am PT = 13h-19h CET (France). So 2x applies from midnight to 1pm and from 7pm to midnight, plus all weekends.
+
 **How Subscription Limits Work**
 
 Unlike API usage (pay-per-token), subscriptions use a hybrid model that's deliberately opaque:
@@ -11363,6 +11367,88 @@ git clone https://github.com/kairn-ai/kairn && cd kairn && pip install -e .
 
 > **Source**: [kairn-ai/kairn GitHub](https://github.com/kairn-ai/kairn) (MIT, Python 100%)
 
+### ICM: Dual Memory Architecture (Rust Binary, Zero Dependencies)
+
+> **⚠️ Status: Under Testing** — Evaluated March 2026. Source-Available license (free for individuals and teams ≤20). From the rtk-ai team (same authors as RTK). Benchmarks below are vendor-reported and unverified independently. Feedback welcome!
+
+**Purpose**: Persistent memory for AI agents combining episodic decay (Memories) and permanent knowledge graph (Memoirs) in a single zero-dependency Rust binary.
+
+**When ICM makes sense over Kairn/doobidoo**:
+- Python dependency management is a friction point (CI environments, sandboxed machines)
+- You want Homebrew install with no Python env setup
+- You need both decay-based episodic memory and a permanent knowledge graph in one tool
+- You use multiple editors (14 clients supported: Claude Code, Cursor, VS Code, Windsurf, Zed, Amp, Cline, Roo Code, OpenAI Codex CLI, and more)
+
+**Key differentiators vs Kairn/doobidoo**:
+- **Single Rust binary**: no Python, no pip, no virtual env — `brew install icm` and done
+- **Dual architecture in one tool**: Memories (decay, episodic) + Memoirs (permanent, typed graph) — Kairn covers the graph layer, doobidoo the semantic layer, ICM covers both
+- **Auto-extraction**: three-layer automatic capture (pattern hooks, pre-compaction, session-start) without explicit `store_memory` calls
+- **Auto-deduplication**: blocks entries with >85% similarity to existing content
+
+| Feature | doobidoo | Kairn | ICM |
+|---------|----------|-------|-----|
+| Language | Python | Python | Rust (single binary) |
+| Install | pip | pip | Homebrew / curl |
+| Episodic decay | No | Yes (biological) | Yes (configurable rates) |
+| Permanent knowledge graph | No | Yes | Yes (Memoirs) |
+| Auto-extraction | No | No | Yes (3 layers) |
+| Hybrid search | Semantic | Full-text + semantic | BM25 30% + vector 70% |
+| License | MIT | MIT | Source-Available |
+
+**Memoir relation types** (9): `part_of`, `depends_on`, `related_to`, `contradicts`, `refines`, `alternative_to`, `caused_by`, `instance_of`, `superseded_by`
+
+**Installation**:
+
+```bash
+# Homebrew (recommended)
+brew tap rtk-ai/tap && brew install icm
+
+# Quick install
+curl -fsSL https://raw.githubusercontent.com/rtk-ai/icm/main/install.sh | sh
+
+# From source
+cargo install --path crates/icm-cli
+```
+
+**MCP Config** (auto-configured via `icm init`):
+
+```bash
+icm init   # interactive setup — detects and configures your editor
+```
+
+**Usage**:
+
+```bash
+# Store episodic memory (auto-decay)
+icm store -t "my-project" -c "Use PostgreSQL for main DB" -i high
+
+# Recall with hybrid search
+icm recall "database choice" --topic "my-project"
+
+# Build permanent knowledge graph
+icm memoir create -n "system-architecture"
+icm memoir add-concept -m "system-architecture" -n "auth-service"
+icm memoir link -m "system-architecture" --from "api-gateway" --to "auth-service" -r depends-on
+```
+
+**Performance** (1000 ops, 384d embeddings — vendor-reported):
+
+| Operation | Latency |
+|-----------|---------|
+| Store (no embeddings) | 34.2 µs/op |
+| Store (with embeddings) | 51.6 µs/op |
+| FTS5 full-text search | 46.6 µs/op |
+| Vector search (KNN) | 590.0 µs/op |
+| Hybrid search | 951.1 µs/op |
+
+**Agent efficiency claims** (vendor-reported, Haiku model, unverified independently):
+- Session 2: 29% fewer turns, 17% cost reduction
+- Session 3: 40% fewer turns, 22% cost reduction
+
+> ⚠️ **License note**: Free for individuals and teams of up to 20 people. Enterprise license required above that threshold. Verify your organization's size before deploying. Contact: license@rtk.ai
+
+> **Source**: [rtk-ai/icm GitHub](https://github.com/rtk-ai/icm) (52 stars, Source-Available)
+
 ### MCP Memory Stack: Complementarity Patterns
 
 > **⚠️ Experimental** - These patterns combine multiple MCP servers. Test in your workflow before relying on them.
@@ -11389,15 +11475,18 @@ git clone https://github.com/kairn-ai/kairn && cd kairn && pip install -e .
 
 **Comparison Matrix**:
 
-| Capability | Serena | grepai | doobidoo | Kairn |
-|------------|--------|--------|----------|-------|
-| Cross-session memory | Key-value | No | Semantic | Knowledge graph |
-| Cross-IDE memory | No | No | Yes | Yes |
-| Cross-device sync | No | No | Yes (Cloudflare) | No |
-| Knowledge Graph | No | Call graph | Decision graph | Typed relationships |
-| Fuzzy search | No | Code | Memory | Full-text + semantic |
-| Tags/categories | No | No | Yes | Yes |
-| Memory decay / auto-expiry | No | No | No | Yes (biological) |
+| Capability | Serena | grepai | doobidoo | Kairn | ICM |
+|------------|--------|--------|----------|-------|-----|
+| Cross-session memory | Key-value | No | Semantic | Knowledge graph | Episodic + graph |
+| Cross-IDE memory | No | No | Yes | Yes | Yes (14 clients) |
+| Cross-device sync | No | No | Yes (Cloudflare) | No | No |
+| Knowledge Graph | No | Call graph | Decision graph | Typed relationships | Typed relationships |
+| Fuzzy search | No | Code | Memory | Full-text + semantic | BM25 + vector hybrid |
+| Tags/categories | No | No | Yes | Yes | Yes (topics) |
+| Memory decay / auto-expiry | No | No | No | Yes (biological) | Yes (configurable) |
+| Auto-extraction | No | No | No | No | Yes (3 layers) |
+| Runtime | — | — | Python | Python | Rust (single binary) |
+| License | MIT | MIT | MIT | MIT | Source-Available (≤20 free) |
 
 **Usage Patterns**:
 
