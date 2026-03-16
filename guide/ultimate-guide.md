@@ -2018,7 +2018,7 @@ The default model depends on your subscription: **Max/Team Premium** subscribers
 | **Sonnet 4.6** | $3.00 | $15.00 | 200K tokens | Default model (Feb 2026) |
 | Sonnet 4.5 | $3.00 | $15.00 | 200K tokens | Legacy (same price) |
 | Opus 4.6 (standard) | $5.00 | $25.00 | 200K tokens | Released Feb 2026 |
-| Opus 4.6 (1M context beta) | $10.00 | $37.50 | 1M tokens | Requests >200K context |
+| Opus 4.6 (1M context) | $5.00 | $25.00 | 1M tokens | GA for Max/Team/Enterprise; API requires tier 4 |
 | Opus 4.6 (fast mode) | $30.00 | $150.00 | 200K tokens | 2.5x faster, 6x price |
 | Haiku 4.5 | $0.80 | $4.00 | 200K tokens | Budget option |
 
@@ -2028,7 +2028,7 @@ The default model depends on your subscription: **Max/Team Premium** subscribers
 
 #### 200K vs 1M Context: Performance, Cost & Use Cases
 
-The 1M context window (beta, API + usage tier 4 required) is a significant capability jump — but community feedback consistently frames it as a **niche premium tool**, not a default.
+The 1M context window (GA for Max/Team/Enterprise plans; API tier 4 still required for direct API use) is a significant capability jump — but community feedback consistently frames it as a **niche premium tool**, not a default.
 
 **Retrieval accuracy at scale (MRCR v2 8-needle 1M variant)**
 
@@ -2042,13 +2042,13 @@ The benchmark is the "8-needle 1M variant" — finding 8 specific facts in a 1M-
 
 **Cost per session (approximate)**
 
-Above 200K input tokens, **all tokens** in the request are charged at premium rates — not just the excess. Applies to both Sonnet 4.6 and Opus 4.6.
+Above 200K input tokens on direct API, **all tokens** in the request are charged at premium rates — not just the excess. Note: on Max/Team/Enterprise Claude Code plans, Opus 4.6 1M is the default at standard rates (no premium) as of v2.1.75 (March 2026).
 
 | Session type | ~Tokens in | ~Tokens out | Sonnet 4.6 | Opus 4.6 |
 |---|---|---|---|---|
 | Bug fix / PR review (≤200K) | 50K | 5K | ~$0.23 | ~$0.38 |
 | Module refactoring (≤200K) | 150K | 20K | ~$0.75 | ~$1.25 |
-| Full service analysis (>200K, 1M beta) | 500K | 50K | ~$4.13 | ~$6.88 |
+| Full service analysis (>200K, 1M context) | 500K | 50K | ~$4.13 | ~$6.88 |
 
 For comparison: Gemini 1.5 Pro offers a 2M context window at $3.50/$10.50/MTok — significantly cheaper for pure long-context RAG. Community advice: use Gemini for large-document RAG, Claude for reasoning quality and agentic workflows.
 
@@ -2065,8 +2065,8 @@ For comparison: Gemini 1.5 Pro offers a 2M context window at $3.50/$10.50/MTok �
 **Key facts**
 - Opus 4.6 max output: **128K tokens**; Sonnet 4.6 max output: **64K tokens**
 - 1M context ≈ 30,000 lines of code / 750,000 words
-- 1M context is **beta** — requires `anthropic-beta: context-1m-2025-08-07` header, usage tier 4 or custom rate limits
-- Above 200K input tokens: Sonnet 4.6 doubles to $6/$22.50/MTok; Opus 4.6 doubles to $10/$37.50/MTok
+- 1M context is **GA for Max/Team/Enterprise Claude Code plans** (v2.1.75, March 2026) — API direct use still requires tier 4 or custom rate limits
+- API direct use above 200K input tokens: Sonnet 4.6 doubles to $6/$22.50/MTok; Opus 4.6 doubles to $10/$37.50/MTok (standard rate applies for Claude Code Max/Team/Enterprise plans)
 - If input stays ≤200K, standard pricing applies even with the beta flag enabled
 - **Practical workaround**: check context at ~70% and open a new session rather than hitting compaction ([HN pattern](https://news.ycombinator.com/item?id=46902427))
 - Community consensus: 200K + RAG is the default; 1M Opus is reserved for cases where loading everything at once is genuinely necessary
@@ -10170,6 +10170,85 @@ echo '{"session_id":"test","cwd":"'$(pwd)'"}' | .claude/hooks/session-summary.sh
 
 ---
 
+### Identity Re-injection After Compaction
+
+**The problem**: When Claude compacts context during a long session, agents configured with a specific role — team lead, developer, reviewer — can "forget" their identity. The compacted transcript no longer contains the original system instructions, so the next response drops the role entirely and starts behaving generically.
+
+This is most visible in agent teams with explicit identity prefixes. A developer agent that was consistently marking messages with `🔨 DEVELOPER:` suddenly stops after compaction and starts responding as a generic assistant.
+
+**The pattern**: Store the agent's identity in a file (`.claude/agent-identity.txt`). After each user message, a `UserPromptSubmit` hook checks whether the last assistant response includes the expected identity marker. If not — which happens after compaction — it injects the identity file contents as `additionalContext`. The next response re-establishes the role without human intervention.
+
+```bash
+# .claude/agent-identity.txt
+# Your agent's identity instructions — anything that should survive compaction
+
+You are the feature team lead. You coordinate the team — you do not write code
+and you do not review code.
+
+Prefix every message with the current state:
+  SPAWN / PLANNING / DEVELOPING / REVIEWING / COMMITTING / COMPLETE
+```
+
+```bash
+# .claude/hooks/identity-reinjection.sh
+# UserPromptSubmit hook — re-injects identity after compaction
+
+IDENTITY_FILE="${CLAUDE_IDENTITY_FILE:-.claude/agent-identity.txt}"
+IDENTITY_MARKER="${CLAUDE_IDENTITY_MARKER:-}"
+
+[[ ! -f "$IDENTITY_FILE" ]] && exit 0
+
+IDENTITY=$(cat "$IDENTITY_FILE")
+[[ -z "$IDENTITY" ]] && exit 0
+
+# Default marker: first non-empty line of the identity file
+[[ -z "$IDENTITY_MARKER" ]] && IDENTITY_MARKER=$(grep -m1 -v '^#' "$IDENTITY_FILE" | head -c 40)
+
+TRANSCRIPT_PATH=$(echo "$INPUT" | jq -r '.transcript_path // empty')
+[[ -z "$TRANSCRIPT_PATH" || ! -f "$TRANSCRIPT_PATH" ]] && exit 0
+
+LAST_ASSISTANT=$(jq -r '
+    [.[] | select(.role == "assistant")] | last | .content |
+    if type == "array" then map(select(.type == "text") | .text) | join("") else . end
+' "$TRANSCRIPT_PATH" 2>/dev/null)
+
+# Identity intact: no action
+echo "$LAST_ASSISTANT" | grep -qF "$IDENTITY_MARKER" && exit 0
+
+# Identity missing: re-inject
+jq -n --arg ctx "[Identity reminder]\n\n$IDENTITY" '{"additionalContext": $ctx}'
+exit 0
+```
+
+**Configuration** (`settings.json`):
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [{
+      "hooks": [{
+        "type": "command",
+        "command": ".claude/hooks/identity-reinjection.sh"
+      }]
+    }]
+  }
+}
+```
+
+**How it behaves**:
+- Zero overhead when identity marker is present (exits immediately on match)
+- Silent no-op when no `.claude/agent-identity.txt` file exists
+- Triggers automatically after compaction — no manual intervention needed
+- Works in both solo sessions (long-running agents) and agent team configurations
+
+**Customization**: Set `CLAUDE_IDENTITY_MARKER` in your environment to a short, distinctive string from the agent's standard output (e.g. `"LEAD:"`, `"DEVELOPER:"`, `"🔨"`). If not set, the hook uses the first 40 characters of the identity file as the marker.
+
+> **Full implementation**: [`examples/hooks/bash/identity-reinjection.sh`](../../examples/hooks/bash/identity-reinjection.sh)
+>
+> **Origin**: Pattern sourced from Nick Tune's [hook-driven dev workflows](https://nick-tune.me/blog/2026-02-28-hook-driven-dev-workflows-with-claude-code/) (2026-02-28). The broader article covers state machine workflows with agent teams — see [Agent Teams Workflow](../workflows/agent-teams.md) for context.
+
+---
+
 # 8. MCP Servers
 
 _Quick jump:_ [What is MCP](#81-what-is-mcp) · [Available Servers](#82-available-servers) · [Configuration](#83-configuration) · [Server Selection Guide](#84-server-selection-guide) · [Plugin System](#85-plugin-system) · [MCP Security](#86-mcp-security)
@@ -13390,6 +13469,8 @@ For critical work, combine everything:
 ## 9.3 CI/CD Integration
 
 > **📖 Complete Workflow Guide**: See [GitHub Actions Workflows](./workflows/github-actions.md) for 5 production-ready patterns using the official `anthropics/claude-code-action` (PR review, triage, security, scheduled maintenance).
+
+> **Code Review (Teams/Enterprise)**: For automated PR review without manual prompting, see [Code Review](./workflows/code-review.md) — Anthropic's multi-agent review feature that posts inline GitHub comments on every PR.
 
 ### Headless Mode
 

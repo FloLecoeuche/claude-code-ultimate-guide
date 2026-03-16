@@ -113,6 +113,9 @@ deep_dive:
   changelog_fragments_ci: "guide/workflows/changelog-fragments.md:169"  # Independent CI migration check job
   # Smart-Suggest Hook
   smart_suggest_hook: "examples/hooks/bash/smart-suggest.sh"  # UserPromptSubmit behavioral coach, 3-tier priority, ROI logging
+  # Identity Re-injection After Compaction (Nick Tune pattern, Feb 2026)
+  identity_reinjection_hook: "guide/ultimate-guide.md:10171"  # UserPromptSubmit guard: re-injects agent identity lost after context compaction
+  identity_reinjection_example: "examples/hooks/bash/identity-reinjection.sh"  # Checks last assistant message for identity marker, injects additionalContext if missing
   # Template Installation
   install_templates_script: "scripts/install-templates.sh"
   # Session management
