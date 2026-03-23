@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- **`eval-skills` skill — removed non-official `tags` frontmatter criterion**: `tags` is not a supported field in the Claude Code skill spec. The skill was incorrectly scoring it as a quality criterion (1pt) and listing it in the parse step. Removed `tags` from frontmatter, scoring table, and parse instructions. Scoring total adjusted from 15 to 14 pts with updated thresholds (≥80% = ≥11/14, 60-79% = 8-10/14). Added an explicit note warning against using `tags`. Reported by community via Alexandre Aubert.
+
 ## [3.37.4] - 2026-03-23
 
 ### Added
