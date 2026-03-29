@@ -6,7 +6,6 @@
 
 <p align="center">
   <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers"><img src="https://img.shields.io/github/stars/FlorianBruniaux/claude-code-ultimate-guide?style=for-the-badge" alt="Stars"/></a>
-  <a href="https://starmapper.bruniaux.com/FlorianBruniaux/claude-code-ultimate-guide"><img src="https://starmapper.bruniaux.com/api/badge/FlorianBruniaux/claude-code-ultimate-guide" alt="StarMapper"/></a>
   <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Mar_27,_2026_·_v3.38.0-brightgreen?style=for-the-badge" alt="Last Update"/></a>
   <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-271_questions-orange?style=for-the-badge" alt="Quiz"/></a>
   <a href="./examples/"><img src="https://img.shields.io/badge/Templates-225-green?style=for-the-badge" alt="Templates"/></a>
@@ -24,6 +23,18 @@
 > **6 months of daily practice** distilled into a guide that teaches you the WHY, not just the what. From core concepts to production security, you learn to design your own agentic workflows instead of copy-pasting configs.
 
 > **If this guide helps you, [give it a star ⭐](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers)** — it helps others discover it too.
+
+---
+
+## StarMapper
+
+<a href="https://starmapper.bruniaux.com/FlorianBruniaux/claude-code-ultimate-guide">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide?theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide?theme=light" />
+    <img alt="StarMapper — see who stars this repo on a world map" src="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide" />
+  </picture>
+</a>
 
 ---
 
@@ -805,6 +816,16 @@ Systematic evaluation of external resources (tools, methodologies, articles) bef
 ## ⭐ Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=FlorianBruniaux/claude-code-ultimate-guide&type=Date)](https://www.star-history.com/#FlorianBruniaux/claude-code-ultimate-guide&Date)
+
+<p align="center">
+  <a href="https://starmapper.bruniaux.com/FlorianBruniaux/claude-code-ultimate-guide">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide?theme=dark" />
+      <source media="(prefers-color-scheme: light)" srcset="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide?theme=light" />
+      <img alt="StarMapper — see who stars this repo on a world map" src="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide" />
+    </picture>
+  </a>
+</p>
 
 ---
 

@@ -71,6 +71,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 | **Straude** (Social usage tracker) | 3/5 | **3/5** | ✅ Intégré (third-party-tools.md, analyse sécurité) | [straude-evaluation.md](./straude-evaluation.md) |
 | **qmd Token Savings** (Simone Ruggiero, Medium) | 2/5 | **2/5** | ❌ Ne pas intégrer (redundant avec grepai, claims non vérifiables) | [2026-02-14-simone-ruggiero-qmd-token-savings-medium.md](./2026-02-14-simone-ruggiero-qmd-token-savings-medium.md) |
 | **Rippletide** (AI Reliability Platform) | 2/5 | **2/5** | ⚠️ Watch only (MCP server tiers, claims non vérifiables, pas de traction) | [072-rippletide-ai-reliability-platform.md](./072-rippletide-ai-reliability-platform.md) |
+| **Community Signals & Benchmark** (March 2026 synthesis) | 4/5 | **3/5** | ✅ No integration (all gaps already covered; 2 factual errors detected) | [community-signals-benchmark-march-2026.md](./community-signals-benchmark-march-2026.md) |
 
 ## Watch List
 
@@ -78,4 +79,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Dernier update**: 2026-03-09 (115 évaluations)
+**Dernier update**: 2026-03-29 (116 évaluations)

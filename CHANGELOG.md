@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Read tool compact line-number format with deduplication
   - Fixed marketplace plugin scripts failing on macOS/Linux since v2.1.83
 
+- `README.md`: added StarMapper section with world map visualization of stargazers (replaces inline badge with dedicated section, added both near top and bottom of page).
+
 ### Added
 - `docs/resource-evaluations/community-signals-benchmark-march-2026.md`: evaluation of two synthesized FR-language reports on Claude Code community signals and competitor benchmark for March 2026 (score 3/5). Fact-check confirmed all identified documentation gaps were already covered in the guide. Two factual errors detected: "Auto Mode" as a permission mode (does not exist; bypassPermissions is the closest equivalent) and Channels (Discord/Telegram/iMessage) attributed to Claude Code (they belong to ClawdBot). No guide content changes required.
 
