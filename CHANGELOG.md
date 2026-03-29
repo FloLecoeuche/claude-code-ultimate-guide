@@ -19,7 +19,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `README.md`: added StarMapper section with world map visualization of stargazers (replaces inline badge with dedicated section, added both near top and bottom of page).
 
 ### Added
-- `docs/resource-evaluations/community-signals-benchmark-march-2026.md`: evaluation of two synthesized FR-language reports on Claude Code community signals and competitor benchmark for March 2026 (score 3/5). Fact-check confirmed all identified documentation gaps were already covered in the guide. Two factual errors detected: "Auto Mode" as a permission mode (does not exist; bypassPermissions is the closest equivalent) and Channels (Discord/Telegram/iMessage) attributed to Claude Code (they belong to ClawdBot). No guide content changes required.
+- `docs/resource-evaluations/community-signals-benchmark-march-2026.md`: evaluation of two synthesized FR-language reports on Claude Code community signals and competitor benchmark for March 2026 (score 3/5). Two factual errors detected: "Auto Mode" as a permission mode (does not exist) and Channels attributed to Claude Code (they are ClawdBot). All other identified gaps were already covered.
+- `guide/ultimate-guide.md` §1.4: added Permission Fatigue anti-pattern section with decision table (right mode per situation). Community signals confirm this is a top friction point: users approve prompts without reading then reach for `--dangerously-skip-permissions` on non-sandboxed machines.
+
+### Fixed
+- `guide/ultimate-guide.md` §Subscription Plans: removed expired Spring Break promotion note (ran March 13-27, 2026).
 
 - `guide/workflows/agent-teams.md` §8 Best Practices: added AGENTS.md for Compound Learning section covering what to document, the empirical case for human-curated vs LLM-generated files (Gloaguen et al., 2026: -3% success / +20% cost for LLM-generated, +4% for developer-written), and maintenance rules. Added Loop Guardrails section (MAX_ITERATIONS=8, mandatory reflection prompt, kill/reassign criteria). Added Dedicated Reviewer Teammate section (Opus 4.6, read-only, auto-trigger on TaskCompleted, 1:4 ratio). Added token budgeting per agent to Cost Optimization (hard limits, 85% pause threshold). Credit: Addy Osmani — O'Reilly AI CodeCon, March 2026.
 - `guide/ultimate-guide.md` §11 CLAUDE.md size guidelines: extended Gloaguen et al. citation to include task success rate data (-3% for LLM-generated, +4% for developer-written) previously missing from the cost-only note at line 16924.

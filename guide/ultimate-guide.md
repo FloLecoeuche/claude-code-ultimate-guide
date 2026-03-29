@@ -1073,6 +1073,22 @@ Auto-approves everything, including shell commands. No permission prompts at all
 
 ⚠️ **Warning**: Only use in sandboxed CI/CD environments. Requires `--dangerously-skip-permissions` to enable from CLI. Never use on production systems or with untrusted code.
 
+### Permission Fatigue (anti-pattern)
+
+A common trap: you're deep in a task, prompts keep appearing, you start approving them without reading. This is **permission fatigue** — and it defeats the purpose of the permission system entirely.
+
+The fix is to pick the right mode upfront rather than clicking through prompts one by one:
+
+| Situation | Right mode | Why |
+|-----------|-----------|-----|
+| Exploratory work, unfamiliar codebase | Plan mode | Can't accidentally change anything |
+| Trusted local edits, no shell ops | `acceptEdits` | Approves edits silently, still gates commands |
+| Automated pipeline, sandboxed env | `bypassPermissions` | No prompts at all — but only safe in isolation |
+| You need one tool auto-approved | `permissions.allow` in CLAUDE.md | Granular, not all-or-nothing |
+| Default new session | Default mode | Explicit review of each action |
+
+The failure mode to avoid: reaching for `--dangerously-skip-permissions` on a dev machine with SSH keys, API tokens, or production access in scope. The permissions system only adds value if you actually read what you're approving — or configure a mode that matches your real trust level.
+
 ## 1.5 Productivity Checklist
 
 You're ready for Day 2 when you can:
@@ -2461,10 +2477,6 @@ Monthly cost estimate: $50-$200 for 5-10 developers
 #### Subscription Plans & Limits
 
 > **Note**: Anthropic's plans evolve frequently. Always verify current pricing and limits at [claude.com/pricing](https://claude.com/pricing).
-
-> **Spring Break Promotion (March 13-27, 2026)**: Anthropic is running a 2-week promotion with **2x usage limits outside peak hours**. Peak hours are 5-11am PT (8am-2pm ET). All other hours — including evenings, nights, early mornings — get doubled usage. Weekends are fully 2x all day. Bonus usage does **not** count against your weekly plan limits. Applies to Free, Pro, Max, and Team plans (Enterprise excluded). Source: [Anthropic support article](https://support.claude.com/en/articles/14063676-claude-march-2026-usage-promotion).
->
-> **For European users**: 5-11am PT = 13h-19h CET (France). So 2x applies from midnight to 1pm and from 7pm to midnight, plus all weekends.
 
 **How Subscription Limits Work**
 
