@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **Guide export script**: `scripts/generate-guide-exports.sh` — generates the full `guide/ultimate-guide.md` (~25K lines) as EPUB (488K) and PDF (2.9 MB) via pandoc + Typst. Outputs to `dist/`. Supports `--epub`, `--pdf`, `-o DIR`, `-v` flags. Auto-detects Typst from Quarto's bundled binary. PDF pre-processing strips internal anchor links for Typst compatibility.
+
+### Updated
+
+- **`examples/commands/check-cache-bugs.md`**: Updated to reflect Anthropic's fixes (Bug 1 fixed v2.1.91, Bug 2 fixed v2.1.90) and extended with ArkNill community findings (B4 microcompact silent context stripping, B5 tool result budget cap 200K). Output format now includes version-conditional FIXED status. Bug 3 (attribution header) still active — workaround unchanged.
+
 ## [3.38.4] - 2026-04-04
 
 ### Documentation
