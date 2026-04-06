@@ -12,13 +12,14 @@ Transformations applied:
 Output: whitepapers/guide-content.md (gitignored)
 """
 
+import argparse
 import re
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
-INPUT = REPO_ROOT / "guide" / "ultimate-guide.md"
-OUTPUT = REPO_ROOT / "whitepapers" / "guide-content.md"
+_DEFAULT_INPUT  = REPO_ROOT / "guide" / "ultimate-guide.md"
+_DEFAULT_OUTPUT = REPO_ROOT / "whitepapers" / "guide-content.md"
 
 
 def strip_frontmatter(content: str) -> str:
@@ -192,6 +193,14 @@ def process(content: str) -> str:
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Pre-process a guide markdown file for Quarto/Typst rendering.")
+    parser.add_argument("--input",  type=Path, default=_DEFAULT_INPUT,  help="Source markdown file")
+    parser.add_argument("--output", type=Path, default=_DEFAULT_OUTPUT, help="Output markdown file")
+    args = parser.parse_args()
+
+    INPUT  = args.input
+    OUTPUT = args.output
+
     if not INPUT.exists():
         print(f"Error: {INPUT} not found", file=sys.stderr)
         sys.exit(1)
