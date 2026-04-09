@@ -144,6 +144,12 @@ deep_dive:
   external_monitoring_tools: "guide/ops/observability.md:527"      # ccusage, claude-code-otel, Akto, MLflow, ccboard
   proxying_claude_code: "guide/ops/observability.md:699"           # Proxyman, mitmproxy, ANTHROPIC_API_URL
   ccboard_activity_plan: "docs/resource-evaluations/ccboard-activity-module-plan.md"
+  # Output Styles (built-in behavior modes)
+  output_styles: "guide/ultimate-guide.md:15790"
+  output_styles_setting: "guide/core/settings-reference.md#outputstyle"
+  output_styles_description: "Three built-in modes: Default (concise), Explanatory (adds design rationale blocks), Learning (pair-programming with TODO(human) markers). Activate via /config or outputStyle in settings.json. Custom styles via .claude/styles/."
+  output_styles_custom_template: "examples/styles/custom-style-template.md"
+  output_styles_official_docs: "https://code.claude.com/docs/en/output-styles"
   # Cost optimization - Local execution bridge
   bridge_script: "examples/scripts/bridge.py"
   bridge_schema: "examples/scripts/bridge-plan-schema.json"

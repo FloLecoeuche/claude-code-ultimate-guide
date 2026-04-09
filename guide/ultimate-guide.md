@@ -15792,19 +15792,60 @@ Embed constraints directly in todos:
 **Reading time**: 5 minutes
 **Skill level**: Week 1+
 
-Control how Claude responds to match your workflow preferences.
+Control how Claude responds to match your workflow and learning preferences. Output styles are a built-in product feature — not a prompt trick — and apply at the session level.
 
-### Output Style Spectrum
+### Built-in Styles
+
+Activate via `/config` → "Preferred output style", or set `outputStyle` in `settings.json`.
+
+| Style | What Claude does | Best for |
+|-------|-----------------|----------|
+| **Default** | Completes tasks efficiently, concise responses | Experienced devs, speed-focused work |
+| **Explanatory** | Adds "Insights" blocks explaining design choices, trade-offs, and codebase patterns | Exploring unfamiliar code, architecture review, onboarding |
+| **Learning** | Pauses at key steps, adds `TODO(human)` markers, asks you to write the meaningful pieces | Junior devs, skill-building, pair programming |
+
+**To activate:**
 
 ```
-← Minimal                                      Verbose →
-───────────────────────────────────────────────────────
-Code only | Code + comments | Explanations | Tutorial
+/config
+→ "Preferred output style"
+→ Select Default / Explanatory / Learning
 ```
 
-### Style Directives
+Or persistent via `settings.json`:
 
-Add to CLAUDE.md or prompt:
+```json
+{
+  "outputStyle": "Explanatory"
+}
+```
+
+The setting persists across sessions. If you have a status line configured, your current output style displays at the bottom of the input field.
+
+### Token impact
+
+Explanatory and Learning produce longer responses by design, increasing output tokens. Prompt caching reduces this cost after the first request in a session.
+
+### Custom Styles
+
+Since December 2025, you can define your own styles in `.claude/styles/`. Create a Markdown file and reference it by filename (without extension) as the `outputStyle` value.
+
+```
+.claude/styles/
+└── strict-reviewer.md    # Custom style definition
+```
+
+```json
+{
+  "outputStyle": "strict-reviewer"
+}
+```
+
+See `examples/styles/` for a ready-to-use custom style template.
+
+### Manual approach (CLAUDE.md directives)
+
+For per-task control without changing the global style, add output directives to your CLAUDE.md:
 
 **Minimal (Expert Mode):**
 ```markdown
@@ -15818,40 +15859,13 @@ Explain significant decisions. Comment complex logic.
 Skip obvious explanations.
 ```
 
-**Verbose (Learning Mode):**
+**Context-aware by task type:**
 ```markdown
-Explain each step. Include alternatives considered.
-Link to documentation for concepts used.
-```
-
-### Context-Aware Styles
-
-```markdown
-## In CLAUDE.md
-
-### Output Preferences
+## Output Preferences
 - **Code reviews**: Detailed, cite specific lines
 - **Bug fixes**: Minimal, show diff only
 - **New features**: Balanced, explain architecture decisions
 - **Refactoring**: Minimal, trust my review
-```
-
-### Format Control
-
-**For code:**
-```markdown
-Format code output as:
-- Full file with changes marked: // CHANGED
-- Diff format for reviews
-- Inline for small changes
-```
-
-**For explanations:**
-```markdown
-Explain using:
-- Bullet points for lists
-- Tables for comparisons
-- Diagrams for architecture
 ```
 
 ### Output Templates
@@ -22651,7 +22665,7 @@ _Quick jump:_ [Commands Table](#101-commands-table) · [Keyboard Shortcuts](#102
 | `/status` | Show session info (context, cost) | Info |
 | `/usage` | Check rate limits and token allocation | Info |
 | `/stats` | View usage statistics with activity graphs | Info |
-| `/output-style` | Change response format (concise/detailed/code) | Display |
+| `/output-style` | **Deprecated** (Oct 2025) — use `/config` → "Preferred output style" instead (Default / Explanatory / Learning) | Display |
 | `/feedback` | Report bugs or send feedback to Anthropic | Support |
 | `/chrome` | Check Chrome connection, manage permissions | Mode |
 | `/config` | View and modify global settings | Config |

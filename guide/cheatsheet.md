@@ -99,6 +99,7 @@ tags: [cheatsheet, reference]
 | **Remote Control** | v2.1.51 | Control local session from phone/browser (Research Preview, Pro/Max) |
 | **`/loop`** | v2.1.71 | Recurring scheduler: `/loop 5m check the deploy` — runs in background while you work |
 | **Skill Evals** | Mar 2026 | Two skill types: Capability Uplift (fills model gap, fades) / Encoded Preference (encodes workflow, stays). Benchmark Mode, A/B testing, Trigger Tuning. |
+| **Output Styles** | Aug 2025 | `/config` → "Preferred output style": **Default** (concise), **Explanatory** (adds design rationale), **Learning** (pair-programming, `TODO(human)` markers). Custom styles via `.claude/styles/`. |
 
 **Activate LSP**: Add to `~/.claude/settings.json` → `{ "env": { "ENABLE_LSP_TOOL": "1" } }` (requires LSP server installed for your language: `tsserver`, `pylsp`, `gopls`, `rust-analyzer`, `sourcekit-lsp`...)
 
