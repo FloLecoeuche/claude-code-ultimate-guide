@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **ultimate-guide.md**: Added Claude Opus 4.7 documentation throughout
+  - Pricing table updated with Opus 4.7 ($5/$25, April 2026), tokenizer note (1.0–1.35x tokens), Mythos Preview mention
+  - Model aliases: `opus` now resolves to Claude Opus 4.7
+  - Effort levels: new `xhigh` level documented (Opus 4.7+, v2.1.114+); default for Claude Code raised to xhigh
+  - Permission modes: Auto mode section added for Max subscribers (v2.1.114+)
+  - /ultrareview section added (cloud parallel code review, v2.1.114+, 3 free for Pro/Max)
+  - Adaptive Thinking evolution timeline updated with Opus 4.7 entry
+  - API examples updated to use `claude-opus-4-7` model ID
+  - Ultraplan table: model updated from Opus 4.6 to Opus 4.7
+  - Cache min tokens table: Opus 4.7 added (4,096 token threshold)
+- **cheatsheet.md**: Effort levels updated for Opus 4.7 (xhigh default, full level list)
+
+- **third-party-tools.md**: New "Security Scanning" section with AgentShield (102-rule `.claude/` config scanner, A–F grading, GitHub Action, MIT); ToC updated; Known Gaps table updated to mark automated config scanning as filled
+- **security-hardening.md**: Section 3.3 split into config-level (AgentShield) and code-level (security-auditor agent) scanning with cross-reference
+
 - **audit-prompt.md v5.1**: context-evaluator.ai referenced in "Deepen Your Audit" block and Section 8 table as a zero-install LLM-native alternative for Dimension 1 (Memory and Context)
 - **context-audit-prompt.md v1.1**: context-evaluator.ai added to Section 9 Related Resources
 - **threat-db.yaml v2.14.0**: 5 new CVEs/advisories (CVE-2026-33032 MCPwn critical actively exploited, CVE-2026-27944, CVE-2025-56404, CVE-2026-30615, ADVISORY-MCP-STDIO-2026-001), T025 "Comment and Control" attack technique, 2 new scanning tools (Snyk Agent Scan, Straiker MCP Security), 9 new sources

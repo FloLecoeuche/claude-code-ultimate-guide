@@ -1,7 +1,7 @@
 ---
 title: "Third-Party Tools for Claude Code"
-description: "Community tools for token tracking, session management, configuration, project context bootstrapping, hook utilities, and alternative UIs"
-tags: [reference, integration, plugin]
+description: "Community tools for token tracking, session management, configuration, security scanning, project context bootstrapping, hook utilities, and alternative UIs"
+tags: [reference, integration, plugin, security]
 ---
 
 # Third-Party Tools for Claude Code
@@ -16,15 +16,16 @@ tags: [reference, integration, plugin]
 2. [Token & Cost Tracking](#token--cost-tracking)
 3. [Session Management](#session-management)
 4. [Configuration Management](#configuration-management)
-5. [Configuration Quality](#configuration-quality)
-6. [Project Context Bootstrapping](#project-context-bootstrapping)
-7. [Engineering Standards Distribution](#engineering-standards-distribution)
-8. [Hook Utilities](#hook-utilities)
-9. [Alternative UIs](#alternative-uis)
-10. [Multi-Agent Orchestration](#multi-agent-orchestration)
-11. [Plugin Ecosystem](#plugin-ecosystem)
-12. [Known Gaps](#known-gaps)
-13. [Recommendations by Persona](#recommendations-by-persona)
+5. [Security Scanning](#security-scanning)
+6. [Configuration Quality](#configuration-quality)
+7. [Project Context Bootstrapping](#project-context-bootstrapping)
+8. [Engineering Standards Distribution](#engineering-standards-distribution)
+9. [Hook Utilities](#hook-utilities)
+10. [Alternative UIs](#alternative-uis)
+11. [Multi-Agent Orchestration](#multi-agent-orchestration)
+12. [Plugin Ecosystem](#plugin-ecosystem)
+13. [Known Gaps](#known-gaps)
+14. [Recommendations by Persona](#recommendations-by-persona)
 
 ---
 
@@ -352,6 +353,66 @@ A web dashboard and MCP server for organizing Claude Code configs across the ful
 - MCP server mode (`--mcp`) so Claude can manage its own config programmatically
 
 **Limitations**: No inline editing of config content yet. No Windows support. Dashboard is read-write for memories/skills/MCP but locked for hooks/plugins/configs.
+
+---
+
+## Security Scanning
+
+Tools that audit Claude Code configurations for vulnerabilities — secrets, permission misconfigs, hook injection, MCP server risks, and prompt injection vectors.
+
+### AgentShield
+
+A security scanner that grades your `.claude/` directory on a 0–100 scale (A–F) across 102 rules in 5 categories. Built at the Claude Code Hackathon (Cerebral Valley x Anthropic, Feb 2026).
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: affaan-m/agentshield](https://github.com/affaan-m/agentshield) |
+| **Install** | `npx ecc-agentshield scan` (zero-install) or `npm install -g ecc-agentshield` |
+| **Language** | TypeScript (Node.js) |
+| **License** | MIT |
+| **Status** | Early-stage (released Feb 2026) — rules not independently audited |
+
+**Key features**:
+
+- **5 scan categories**: secrets (14 patterns: `sk-ant-`, `ghp_`, AWS, Stripe…), permissions (wildcard `Bash(*)`, missing deny lists), hooks (34 rules: command injection via `${var}`, data exfiltration, silent errors, reverse shells), MCP servers (23 rules: supply-chain, `npx -y`, remote transport), agents (25 rules: auto-run instructions, hidden Unicode directives, prompt reflection)
+- **Auto-fix**: `agentshield scan --fix` — replaces hardcoded secrets with env var references
+- **Multiple output formats**: terminal (default), JSON (`--format json`), Markdown, self-contained HTML
+- **GitHub Action**: posts inline annotations on affected files, emits `score` and `grade` outputs, supports `fail-on-findings` threshold
+- **Opus adversarial analysis** (`--opus --stream`): three-agent pipeline (Attacker → Defender → Auditor) using Opus 4.6 for deep threat modeling
+
+```bash
+# Scan your Claude Code config (no install required)
+npx ecc-agentshield scan
+
+# Auto-fix safe issues
+agentshield scan --fix
+
+# JSON output for CI
+agentshield scan --format json
+
+# Three-agent adversarial analysis (requires ANTHROPIC_API_KEY — incurs API cost)
+agentshield scan --opus --stream
+```
+
+**GitHub Action**:
+
+```yaml
+- name: AgentShield Security Scan
+  uses: affaan-m/agentshield@v1
+  with:
+    path: "."
+    min-severity: "medium"
+    fail-on-findings: "true"
+```
+
+**`runtimeConfidence` context**: findings are weighted by source — `active-runtime` (full weight) vs `template-example` (0.25x) vs `docs-example` (0.25x) — so a large MCP template catalog doesn't inflate the score like dozens of active servers.
+
+**Limitations**:
+- Rules are not independently audited — treat the grade as a useful signal, not a compliance certification
+- `--opus` mode triggers Opus 4.6 API calls; budget accordingly before enabling in CI
+- Project is 2 months old — API surface may evolve; pin to a specific version in production
+
+> **See also**: [Security Hardening guide](security-hardening.md) for manual hook and permission patterns.
 
 ---
 
@@ -957,6 +1018,7 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 | **Visual hooks editor** | No GUI for managing hooks in `settings.json` — requires JSON editing |
 | **Unified admin panel** | No single dashboard combining config, sessions, cost, and MCP management |
 | **Session replay** | ✅ **FILLED**: Entire CLI (launched Feb 2026) provides rewindable checkpoints with full context replay |
+| **Automated `.claude/` security scanning** | ✅ **FILLED**: [AgentShield](https://github.com/affaan-m/agentshield) (launched Feb 2026) — 102-rule scanner with A–F grading, `--fix`, and GitHub Action integration |
 | **Agent-native issue tracking** | No established tool for markdown-based, git-committable issue tracking with Claude Code. [fp.dev](https://fp.dev/) is an early-stage solution (local-first, `/fp-plan` + `/fp-implement` skills, diff viewer) but lacks adoption signals and requires Apple Silicon for the desktop app. The Tasks API covers state persistence but issues aren't git-committable. |
 | **Per-MCP-server profiler** | No way to measure token cost attributable to each MCP server individually |
 | **Cross-platform config sync** | No tool syncs Claude Code config across machines (must manual copy `~/.claude/`) |

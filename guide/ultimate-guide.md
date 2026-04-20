@@ -1068,6 +1068,19 @@ Auto-denies tools unless pre-approved via `/permissions` or `permissions.allow` 
 
 Use for restrictive workflows where you want tight control over which tools run, without interactive confirmation.
 
+### Auto Mode (Max subscribers, v2.1.114+)
+
+Auto mode lets Claude make permission decisions on your behalf during long-running tasks. Instead of stopping every time a risky action needs approval, Claude applies its own judgment — and you review the result rather than approving each step.
+
+```
+# Enable via settings.json
+{ "permissionMode": "auto" }
+```
+
+Unlike `bypassPermissions` (which approves blindly), auto mode uses a classifier to evaluate each action. `PermissionDenied` hooks fire when the classifier blocks something, giving you visibility into what was declined. Designed for long tasks with fewer interruptions and less risk than skipping all permissions.
+
+**Requirements**: Max plan subscription. Available as of v2.1.114.
+
 ### Bypass Permissions Mode (`bypassPermissions`)
 
 Auto-approves everything, including shell commands. No permission prompts at all.
@@ -1097,6 +1110,7 @@ The fix is to pick the right mode upfront rather than clicking through prompts o
 |-----------|-----------|-----|
 | Exploratory work, unfamiliar codebase | Plan mode | Can't accidentally change anything |
 | Trusted local edits, no shell ops | `acceptEdits` | Approves edits silently, still gates commands |
+| Long agentic tasks, Max plan | Auto mode | Claude judges actions; fewer interruptions with less risk than bypass |
 | Automated pipeline, sandboxed env | `bypassPermissions` | No prompts at all — but only safe in isolation |
 | You need one tool auto-approved | `permissions.allow` in CLAUDE.md | Granular, not all-or-nothing |
 | Default new session | Default mode | Explicit review of each action |
@@ -2133,22 +2147,28 @@ Example output:
 
 Claude Code isn't free - you're using API credits. Understanding costs helps optimize usage.
 
-#### Pricing Model (as of February 2026)
+#### Pricing Model (as of April 2026)
 
-The default model depends on your subscription: **Max/Team Premium** subscribers get **Opus 4.6** by default, while **Pro/Team Standard** subscribers get **Sonnet 4.6**. If Opus usage hits the plan threshold, it auto-falls back to Sonnet.
+The default model depends on your subscription: **Max/Team Premium** subscribers get **Opus 4.7** by default, while **Pro/Team Standard** subscribers get **Sonnet 4.6**. If Opus usage hits the plan threshold, it auto-falls back to Sonnet.
+
+> **Model lineup (April 2026)**: Claude Opus 4.7 is the standard production Opus model (`claude-opus-4-7`). Claude Mythos Preview is more capable but remains in limited release. Opus 4.7 is the recommended upgrade path from Opus 4.6.
 
 | Model | Input (per 1M tokens) | Output (per 1M tokens) | Context Window | Notes |
 |-------|----------------------|------------------------|----------------|-------|
-| **Sonnet 4.6** | $3.00 | $15.00 | 200K tokens | Default model (Feb 2026) |
-| Sonnet 4.5 | $3.00 | $15.00 | 200K tokens | Legacy (same price) |
-| Opus 4.6 (standard) | $5.00 | $25.00 | 200K tokens | Released Feb 2026 |
-| Opus 4.6 (1M context) | $5.00 | $25.00 | 1M tokens | GA for Max/Team/Enterprise; API requires tier 4 |
-| Opus 4.6 (fast mode) | $30.00 | $150.00 | 200K tokens | 2.5x faster, 6x price |
+| **Sonnet 4.6** | $3.00 | $15.00 | 200K tokens | Default (Pro/Team Standard) |
+| Sonnet 4.5 | $3.00 | $15.00 | 200K tokens | Legacy |
+| **Opus 4.7** | $5.00 | $25.00 | 200K tokens | Released April 2026; default for Max/Team Premium |
+| Opus 4.7 (1M context) | $5.00 | $25.00 | 1M tokens | GA for Max/Team/Enterprise; API requires tier 4 |
+| Opus 4.6 (standard) | $5.00 | $25.00 | 200K tokens | Previous generation |
+| Opus 4.6 (1M context) | $5.00 | $25.00 | 1M tokens | Previous generation |
+| Opus 4.6 (fast mode) | $30.00 | $150.00 | 200K tokens | Fast mode; 2.5x faster, 6x price |
 | Haiku 4.5 | $0.80 | $4.00 | 200K tokens | Budget option |
+
+> **Opus 4.7 tokenizer**: A new tokenizer means the same input can map to roughly **1.0–1.35×** more tokens depending on content type. At higher effort levels, Opus 4.7 also produces more output tokens (more reasoning). Measure your real traffic when migrating from Opus 4.6; use the `effort` parameter to control spend.
 
 **Reality check**: A typical 1-hour session costs **$0.10 - $0.50** depending on usage patterns.
 
-> **Model deprecations (Feb 2026)**: `claude-3-haiku-20240307` (Claude 3 Haiku) was deprecated on **February 19, 2026** with **retirement scheduled for April 20, 2026**. If your CLAUDE.md, agent definitions, or scripts hardcode this model ID, migrate to `claude-haiku-4-5-20251001` (Haiku 4.5) before April 2026. Source: [platform.claude.com/docs/model-deprecations](https://platform.claude.com/docs/model-deprecations)
+> **Model retirement (April 2026)**: `claude-3-haiku-20240307` (Claude 3 Haiku) was retired on **April 20, 2026**. If your CLAUDE.md, agent definitions, or scripts still hardcode this model ID, migrate to `claude-haiku-4-5-20251001` (Haiku 4.5) immediately. Source: [platform.claude.com/docs/model-deprecations](https://platform.claude.com/docs/model-deprecations)
 
 #### 200K vs 1M Context: Performance, Cost & Use Cases
 
@@ -2181,13 +2201,13 @@ For comparison: Gemini 1.5 Pro offers a 2M context window at $3.50/$10.50/MTok �
 | Scenario | Recommendation |
 |----------|---------------|
 | Bug fix, PR review, daily coding | Sonnet 4.6 @ 200K — fast and cheap |
-| Full-repo audit, entire codebase load | Opus 4.6 @ 1M — worth the cost for precision |
+| Full-repo audit, entire codebase load | Opus 4.7 @ 1M — worth the cost for precision |
 | Cross-module refactoring | Sonnet 4.6 @ 1M — but weigh cost vs. chunking + RAG |
-| Architecture analysis, Agent Teams | Opus 4.6 @ 1M — strongest retrieval at scale |
+| Architecture analysis, Agent Teams | Opus 4.7 @ 1M — strongest retrieval at scale |
 | Large-document RAG (PDFs, legal, books) | Consider Gemini 1.5 Pro — cheaper at this scale |
 
 **Key facts**
-- Opus 4.6 max output: **128K tokens**; Sonnet 4.6 max output: **64K tokens**
+- Opus 4.7 max output: **128K tokens** (same as Opus 4.6); Sonnet 4.6 max output: **64K tokens**
 - 1M context ≈ 30,000 lines of code / 750,000 words
 - 1M context is **GA for Max/Team/Enterprise Claude Code plans** (v2.1.75, March 2026) — API direct use still requires tier 4 or custom rate limits
 - API direct use above 200K input tokens: Sonnet 4.6 doubles to $6/$22.50/MTok; Opus 4.6 doubles to $10/$37.50/MTok (standard rate applies for Claude Code Max/Team/Enterprise plans)
@@ -2347,7 +2367,7 @@ A block must meet a minimum size to be eligible for caching. Blocks smaller than
 
 | Model family | Minimum tokens |
 |---|---|
-| Claude Opus 4.6, Opus 4.5, Haiku 4.5 | 4,096 |
+| Claude Opus 4.7, Opus 4.6, Opus 4.5, Haiku 4.5 | 4,096 |
 | Claude Sonnet 4.6 | 2,048 |
 | Claude Sonnet 4.5, Sonnet 4, Sonnet 3.7, Opus 4.1, Opus 4 | 1,024 |
 | Claude Haiku 3.5, Haiku 3 | 2,048 |
@@ -2882,7 +2902,7 @@ Claude Code supports six model aliases via `/model` (each always resolves to the
 |-------|-------------|----------|
 | `default` | Latest model for your plan tier | Standard usage |
 | `sonnet` | Claude Sonnet 4.6 | Fast, cost-efficient |
-| `opus` | Claude Opus 4.6 | Deep reasoning |
+| `opus` | Claude Opus 4.7 | Deep reasoning |
 | `haiku` | Claude Haiku 4.5 | Budget, high-volume |
 | `sonnet[1m]` | Sonnet with 1M context | Large codebases |
 | `opusplan` | Opus (plan) + Sonnet (act) | Hybrid intelligence |
@@ -2893,6 +2913,7 @@ Model can also be set via `claude --model <alias>`, `ANTHROPIC_MODEL` env var, o
 
 | Model | Knowledge Cutoff |
 |-------|-----------------|
+| Claude Opus 4.7 | Not yet published |
 | Claude Sonnet 4.6 | August 2025 |
 | Claude Opus 4.6 | May 2025 |
 | Claude Haiku 4.5 | February 2025 |
@@ -3105,7 +3126,7 @@ Teleport sub-options:
 |---------|-----------|----------|-----------|
 | Execution | Local | Local | Cloud |
 | Terminal blocked? | Yes | Yes | No |
-| Models | Active model | Opus (plan) + Sonnet (act) | Opus 4.6 (multi-agent) |
+| Models | Active model | Opus (plan) + Sonnet (act) | Opus 4.7 (multi-agent) |
 | Review surface | Terminal scrollback | Terminal scrollback | Browser with inline comments |
 | Requires GitHub | No | No | Yes |
 | Token accounting | Counts locally | Counts locally | Cloud planning free from local quota |
@@ -3125,6 +3146,38 @@ Skip it for:
 **Token Note**: Early tests show cloud planning consuming ~37% fewer tokens than equivalent local plans (82K vs 131K for a ~55 min migration task). Cloud planning tokens don't count against your local quota; only implementation tokens do.
 
 > **See also**: [§9.16 Session Teleportation](#916-session-teleportation) for the broader web ↔ terminal workflow. Ultraplan uses the same cloud infrastructure with planning-specific review capabilities.
+
+---
+
+### Ultrareview (v2.1.114+)
+
+Cloud-based parallel multi-agent code review. Where Ultraplan handles planning, Ultrareview handles review: multiple Opus 4.7 agents read through your changes simultaneously and surface bugs and design issues that careful reviewers would catch.
+
+**Activation**:
+
+```bash
+/ultrareview
+```
+
+Runs when you have staged or uncommitted changes. The cloud session dispatches parallel agents to review the diff; results are presented in the browser and can optionally be teleported back to the terminal.
+
+**Launch offer**: Pro and Max subscribers receive three free ultrareviews to try the feature.
+
+**Requirements**:
+
+| Requirement | Detail |
+|-------------|--------|
+| Claude Code version | v2.1.114+ |
+| Account | Pro or Max |
+| Providers | Anthropic API only |
+
+**Ultraplan vs. Ultrareview**
+
+| | Ultraplan | Ultrareview |
+|---|---|---|
+| Purpose | Plan before coding | Review after coding |
+| Input | Prompt describing the task | Current git diff |
+| Output | Architectural plan | Bug and design issue report |
 
 ---
 
@@ -3337,7 +3390,10 @@ The `effort` parameter (Opus 4.6 API) controls the model's **overall computation
 - **`high`** — Design decisions, edge cases, multiple concerns
   > `"Redesign error handling in the payment module: add retry logic, partial failure recovery, and idempotency guarantees"` — Architectural choices, not just pattern application.
 
-- **`max`** _(Opus 4.6 only — returns error on other models)_ — Cross-system reasoning, irreversible decisions
+- **`xhigh`** _(Opus 4.7+, v2.1.114+)_ — Extra-high effort between `high` and `max`; default for Claude Code (all plans) with Opus 4.7
+  > `"Debug this race condition in the distributed job queue with concurrent writes and partial reads"` — More reasoning depth than `high`, faster than `max`.
+
+- **`max`** _(Opus 4.7+ only — returns error on other models)_ — Cross-system reasoning, irreversible decisions
   > `"Analyze the microservices event pipeline for race conditions across order-service, inventory-service, and notification-service"` — Multi-service hypothesis testing, adversarial thinking.
 
 ---
@@ -14499,7 +14555,7 @@ The most powerful Claude Code pattern combines three techniques:
 
 ### Extended Thinking (Opus 4.5+) & Adaptive Thinking (Opus 4.6+)
 
-> **⚠️ Breaking Change (Opus 4.6, Feb 2026)**: Opus 4.6 replaces **budget-based thinking** with **Adaptive Thinking**, which automatically decides when to use deep reasoning based on query complexity. The `budget_tokens` parameter is **deprecated** on Opus 4.6.
+> **⚠️ Breaking Change (Opus 4.6, Feb 2026)**: Opus 4.6 replaces **budget-based thinking** with **Adaptive Thinking**, which automatically decides when to use deep reasoning based on query complexity. The `budget_tokens` parameter is **deprecated** on Opus 4.6+.
 
 #### Evolution Timeline
 
@@ -14508,17 +14564,20 @@ The most powerful Claude Code pattern combines three techniques:
 | **Opus 4.5** (pre-v2.0.67) | Opt-in, keyword-triggered (~4K/10K/32K tokens) | Prompt keywords |
 | **Opus 4.5** (v2.0.67+) | Always-on at max budget | Alt+T toggle, `/config` |
 | **Opus 4.6** (Feb 2026) | **Adaptive thinking** (dynamic depth) | `effort` parameter (API), Alt+T (CLI) |
+| **Opus 4.7** (Apr 2026) | **Adaptive thinking + xhigh** (new effort level) | `effort` parameter (API), Alt+T (CLI) |
 
-#### Adaptive Thinking (Opus 4.6)
+#### Adaptive Thinking (Opus 4.6 and Opus 4.7)
 
 **How it works**: The `effort` parameter controls the model's **overall computational budget** — not just thinking tokens, but the entire response including text generation and tool calls. The model dynamically allocates this budget based on query complexity.
 
 **Key insight**: `effort` affects everything, even when thinking is disabled. Lower effort = fewer tool calls, more concise text. Higher effort = more tool calls with explanations, detailed analysis.
 
 **Effort levels** (API only, official descriptions):
-- **`max`**: Maximum capability, no constraints. **Opus 4.6 only** (returns error on other models). Cross-system reasoning, irreversible decisions.
+- **`max`**: Maximum capability, no constraints. **Opus 4.7+ only** (returns error on other models). Cross-system reasoning, irreversible decisions.
   > Example: `"Analyze the microservices event pipeline for race conditions across order-service, inventory-service, and notification-service"`
-- **`high`** (default): Complex reasoning, coding, agentic tasks. Best for production workflows requiring deep analysis.
+- **`xhigh`** _(Opus 4.7+, v2.1.114+)_: Extra-high effort, between `high` and `max`. **Default in Claude Code (all plans) with Opus 4.7.** Use when you want more reasoning depth without full `max` latency.
+  > Example: `"Debug the race condition in the distributed job queue with concurrent writes"`
+- **`high`** (default for API): Complex reasoning, coding, agentic tasks. Best for production workflows requiring deep analysis.
   > Example: `"Redesign error handling in the payment module: add retry logic, partial failure recovery, and idempotency guarantees"`
 - **`medium`**: Balance between speed, cost, and performance. Good for agentic tasks with moderate complexity.
   > Example: `"Convert fetchUser() in api/users.ts from callbacks to async/await"`
@@ -14530,9 +14589,9 @@ The most powerful Claude Code pattern combines three techniques:
 **API syntax**:
 ```python
 response = client.messages.create(
-    model="claude-opus-4-6",
+    model="claude-opus-4-7",
     max_tokens=16000,
-    output_config={"effort": "medium"},  # low|medium|high|max
+    output_config={"effort": "xhigh"},  # low|medium|high|xhigh|max
     messages=[{"role": "user", "content": "Analyze..."}]
 )
 ```
