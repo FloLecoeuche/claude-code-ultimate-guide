@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Claude Code Releases**: Updated tracking to v2.1.116
+  - `/resume` up to 67% faster on 40MB+ sessions; handles dead-fork entries more efficiently
+  - Thinking spinner shows inline progress ("still thinking", "thinking more", "almost done thinking")
+  - Security: sandbox auto-allow no longer bypasses dangerous-path check for `rm`/`rmdir` targeting `/`, `$HOME`, or critical directories
+  - Agent frontmatter `hooks:` now fire when running as main-thread agent via `--agent`; `/config` search matches option values; many terminal, scrolling, and UI bug fixes
+
 - **third-party-tools.md**: Added abtop — Rust TUI for monitoring Claude Code & Codex CLI agent fleets (htop-style: tokens, context %, rate limits, orphan ports, subagent tree, tmux integration, 584+ stars, MIT)
 
 - **ultimate-guide.md § 5.4**: Added Example 4 — Tally Form Builder Skill, documenting the MCP wrapping pattern with deferred tool loading, OAuth flow, block chaining, and known limitations
