@@ -619,14 +619,24 @@ Same agentic capabilities as Claude Code, but through a visual interface with no
 
 ### Claude Code Plugins (Marketplace)
 
-Production-ready plugins from this guide, installable in one command:
+All 181 templates from this guide packaged as installable Claude Code plugins — hooks auto-wired, no manual config:
 
 ```bash
+# Add the marketplace
 claude plugin marketplace add FlorianBruniaux/claude-code-plugins
-claude plugin install session-summary@florian-claude-tools
+
+# Install the plugins you need
+claude plugin install security-suite       # OWASP auditing, cyber-defense pipeline, 13 hooks
+claude plugin install devops-pipeline      # CI/CD, git worktrees, GitHub Actions
+claude plugin install release-automation   # Changelog + release notes + social content
+claude plugin install code-quality         # SOLID refactoring, TDD, GoF patterns, 6 agents
+claude plugin install pr-workflow          # Planning gates, PR/issue triage, handoffs
+claude plugin install session-tools        # ccboard monitoring, voice refinement, 11 hooks
+claude plugin install ai-methodology       # Scaffolding, 6-stage talk pipeline, context-engineering
+claude plugin install session-summary      # Session analytics dashboard (15 sections)
 ```
 
-> **[FlorianBruniaux/claude-code-plugins](https://github.com/FlorianBruniaux/claude-code-plugins)** — Session analytics, more plugins coming
+> **[FlorianBruniaux/claude-code-plugins](https://github.com/FlorianBruniaux/claude-code-plugins)** — 8 plugins, 181 templates, one marketplace
 
 ### Complementary Resources
 
